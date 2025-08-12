@@ -1,0 +1,17 @@
+{
+  "name": "footwear-market",
+  "version": "1.0.0",
+  "description": "Modern footwear marketplace built with Vue 2 and Vuex",
+  "main": "index.js",
+  "scripts": {
+    "serve": "http-server . -p 8080",
+    "dev": "npm run serve"
+  },
+  "dependencies": {
+    "vue": "^2.7.16",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
