@@ -856,6 +856,14 @@
                     }, 3000);
                 }
             },
+            mounted() {
+                // Add click outside listener for dropdown
+                document.addEventListener('click', this.handleClickOutside);
+            },
+            beforeDestroy() {
+                // Remove click outside listener
+                document.removeEventListener('click', this.handleClickOutside);
+            },
             template: `
                 <div class="sole-hub-app">
                     <!-- Feature 1 & 4 & 5: Enhanced Header with Auth, Search, Voice -->
