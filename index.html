@@ -747,6 +747,17 @@
                     this.showToast('Welcome back!', 'success');
                 },
 
+                // User menu methods
+                toggleUserMenu() {
+                    this.showUserDropdown = !this.showUserDropdown;
+                },
+
+                handleLogout() {
+                    this.user = { isLoggedIn: false, name: '', email: '' };
+                    this.showUserDropdown = false;
+                    this.showToast('Logged out successfully!', 'success');
+                },
+
                 // Feature 2: Location Search
                 showLocationModal() {
                     this.locationModalVisible = true;
