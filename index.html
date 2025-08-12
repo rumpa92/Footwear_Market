@@ -309,14 +309,14 @@
             store,
             render: h => h(App),
             mounted() {
-                // Hide loading screen after app is mounted
+                // Hide fashion splash screen after elegant timing
                 setTimeout(() => {
                     const loading = document.getElementById('loading');
                     loading.classList.add('fade-out');
                     setTimeout(() => {
                         loading.style.display = 'none';
-                    }, 500);
-                }, 1000);
+                    }, 800);
+                }, 2500); // 2.5 seconds for premium feel
             }
         });
     </script>
