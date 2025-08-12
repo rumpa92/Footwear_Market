@@ -30,8 +30,8 @@
             <span v-if="cartItemCount" class="badge-count">{{ cartItemCount }}</span>
           </button>
           
-          <button class="action-btn user-btn" @click="toggleUserMenu">
-            👤
+          <button class="action-btn user-btn" @click="showAuth">
+            {{ user.isLoggedIn ? '👤' : '🔑' }}
           </button>
         </div>
       </div>
