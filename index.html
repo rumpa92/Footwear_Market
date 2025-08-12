@@ -264,6 +264,139 @@
             animation: subtitleFlow 4s ease-in-out infinite;
         }
 
+        /* Get Started Button Container */
+        .get-started-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 40px 0 20px 0;
+            animation: buttonFadeIn 1s ease-out 1s both;
+        }
+
+        @keyframes buttonFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Get Started Button */
+        .get-started-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg,
+                #667eea 0%,
+                #764ba2 25%,
+                #f093fb 50%,
+                #f5576c 75%,
+                #4facfe 100%);
+            background-size: 200% 100%;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+            animation: buttonPulse 2s ease-in-out infinite;
+            min-width: 220px;
+        }
+
+        .get-started-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 48px rgba(102, 126, 234, 0.6);
+            background-position: 100% 0;
+        }
+
+        .get-started-btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% {
+                box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+            }
+            50% {
+                box-shadow: 0 12px 48px rgba(102, 126, 234, 0.6);
+            }
+        }
+
+        /* Button Text */
+        .btn-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Button Icon */
+        .btn-icon {
+            font-size: 24px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .get-started-btn:hover .btn-icon {
+            transform: translateX(8px);
+        }
+
+        /* Button Shine Effect */
+        .get-started-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 100%);
+            transition: left 0.6s ease;
+            z-index: 1;
+        }
+
+        .get-started-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Start Subtitle */
+        .start-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 16px;
+            letter-spacing: 1px;
+            text-align: center;
+            animation: subtitleFade 1.5s ease-out 1.5s both;
+        }
+
+        @keyframes subtitleFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @keyframes subtitleFlow {
             0%, 100% {
                 background-position: 0% 50%;
