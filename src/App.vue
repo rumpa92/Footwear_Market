@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <HeaderComponent />
+    <HeaderComponent @show-auth="showAuthModal" />
     <main class="main-content">
       <div class="container">
         <div class="page-layout">
@@ -16,6 +16,15 @@
     </main>
     <CartSidebar />
     <FooterComponent />
+
+    <!-- Authentication Modal -->
+    <AuthModal
+      :visible="authModalVisible"
+      @close="hideAuthModal"
+      @signin-success="handleSignInSuccess"
+      @signup-success="handleSignUpSuccess"
+      @social-login="handleSocialLogin"
+    />
   </div>
 </template>
 
