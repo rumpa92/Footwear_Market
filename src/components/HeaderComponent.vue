@@ -3,7 +3,7 @@
     <div class="container">
       <div class="header-content">
         <div class="logo">
-          <h1>👟 SoleHub</h1>
+          <h1>👟 Sole Hub</h1>
         </div>
         
         <div class="search-bar">
