@@ -62,9 +62,14 @@ export default {
         cartSidebar.classList.toggle('open')
       }
     },
-    toggleUserMenu() {
-      // Toggle user menu (would implement dropdown)
-      console.log('Toggle user menu')
+    showAuth() {
+      if (this.user.isLoggedIn) {
+        // Show user menu if logged in
+        console.log('Show user menu')
+      } else {
+        // Show auth modal if not logged in
+        this.$emit('show-auth')
+      }
     }
   }
 }
