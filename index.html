@@ -20,7 +20,7 @@
     <script src="https://unpkg.com/vuex@3.6.2/dist/vuex.min.js"></script>
     
     <style>
-        /* Fashion Splash Screen Styles */
+        /* Vibrant Colorful Splash Screen */
         .app-loading {
             position: fixed;
             top: 0;
@@ -28,19 +28,39 @@
             width: 100%;
             height: 100%;
             background:
-                radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255, 228, 196, 0.2) 0%, transparent 50%),
-                linear-gradient(135deg, #f8f6f0 0%, #e8e2d4 25%, #f0ebe1 50%, #f5f1ea 75%, #faf8f2 100%);
+                radial-gradient(circle at 20% 20%, rgba(255, 71, 87, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(30, 144, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 60% 40%, rgba(255, 165, 0, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg,
+                    #667eea 0%,
+                    #764ba2 15%,
+                    #f093fb 30%,
+                    #f5576c 45%,
+                    #4facfe 60%,
+                    #00f2fe 75%,
+                    #43e97b 90%,
+                    #38f9d7 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 9999;
             overflow: hidden;
+            animation: backgroundShift 8s ease-in-out infinite;
         }
 
-        /* Subtle fabric texture overlay */
+        /* Animated background shift */
+        @keyframes backgroundShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Dynamic geometric shapes */
         .app-loading::before {
             content: '';
             position: absolute;
@@ -48,14 +68,28 @@
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.03;
-            background-image:
-                repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px),
-                repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 90%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.05) 0%, transparent 25%);
+            animation: shapesFloat 6s ease-in-out infinite;
             pointer-events: none;
         }
 
-        /* Floating particles for runway effect */
+        @keyframes shapesFloat {
+            0%, 100% {
+                transform: rotate(0deg) scale(1);
+            }
+            33% {
+                transform: rotate(120deg) scale(1.1);
+            }
+            66% {
+                transform: rotate(240deg) scale(0.9);
+            }
+        }
+
+        /* Colorful floating particles */
         .runway-lights {
             position: absolute;
             width: 100%;
@@ -65,24 +99,69 @@
 
         .light {
             position: absolute;
-            width: 2px;
-            height: 2px;
-            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            animation: float 6s infinite ease-in-out;
+            animation: colorfulFloat 8s infinite ease-in-out;
+            box-shadow: 0 0 20px currentColor;
         }
 
-        .light:nth-child(1) { left: 10%; animation-delay: 0s; }
-        .light:nth-child(2) { left: 20%; animation-delay: 1s; }
-        .light:nth-child(3) { left: 30%; animation-delay: 2s; }
-        .light:nth-child(4) { left: 40%; animation-delay: 3s; }
-        .light:nth-child(5) { left: 50%; animation-delay: 4s; }
-        .light:nth-child(6) { left: 60%; animation-delay: 5s; }
-        .light:nth-child(7) { left: 70%; animation-delay: 1.5s; }
-        .light:nth-child(8) { left: 80%; animation-delay: 2.5s; }
-        .light:nth-child(9) { left: 90%; animation-delay: 3.5s; }
+        .light:nth-child(1) {
+            left: 10%;
+            animation-delay: 0s;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: #ff6b6b;
+        }
+        .light:nth-child(2) {
+            left: 20%;
+            animation-delay: 1s;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: #4ecdc4;
+        }
+        .light:nth-child(3) {
+            left: 30%;
+            animation-delay: 2s;
+            background: linear-gradient(45deg, #45b7d1, #96c93d);
+            color: #45b7d1;
+        }
+        .light:nth-child(4) {
+            left: 40%;
+            animation-delay: 3s;
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            color: #f093fb;
+        }
+        .light:nth-child(5) {
+            left: 50%;
+            animation-delay: 4s;
+            background: linear-gradient(45deg, #ffd93d, #ff6b6b);
+            color: #ffd93d;
+        }
+        .light:nth-child(6) {
+            left: 60%;
+            animation-delay: 5s;
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: #6c5ce7;
+        }
+        .light:nth-child(7) {
+            left: 70%;
+            animation-delay: 1.5s;
+            background: linear-gradient(45deg, #fd79a8, #fdcb6e);
+            color: #fd79a8;
+        }
+        .light:nth-child(8) {
+            left: 80%;
+            animation-delay: 2.5s;
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            color: #00b894;
+        }
+        .light:nth-child(9) {
+            left: 90%;
+            animation-delay: 3.5s;
+            background: linear-gradient(45deg, #e17055, #fab1a0);
+            color: #e17055;
+        }
 
-        /* Brand Logo Container */
+        /* Brand Logo Container with rainbow effect */
         .brand-container {
             position: relative;
             z-index: 10;
@@ -90,48 +169,119 @@
             flex-direction: column;
             align-items: center;
             margin-bottom: 60px;
+            animation: brandPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes brandPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         .loading-logo {
-            font-size: 72px;
+            font-size: 84px;
             margin-bottom: 20px;
-            background: linear-gradient(135deg, #2c1810 0%, #8b4513 30%, #daa520 70%, #ffd700 100%);
+            background: linear-gradient(45deg,
+                #ff6b6b 0%,
+                #ffd93d 14%,
+                #6bcf7f 28%,
+                #4d9de0 42%,
+                #9b59b6 56%,
+                #e74c3c 70%,
+                #f39c12 84%,
+                #1abc9c 100%);
+            background-size: 400% 400%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             position: relative;
-            animation: logoGlow 3s ease-in-out infinite;
+            animation: rainbowShift 3s ease-in-out infinite, logoSpin 6s linear infinite;
+            filter: drop-shadow(0 0 30px rgba(255, 107, 107, 0.6));
+        }
+
+        @keyframes rainbowShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes logoSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .loading-text {
-            font-family: 'Inter', serif;
-            font-size: 32px;
-            font-weight: 300;
-            letter-spacing: 8px;
-            color: #2c1810;
+            font-family: 'Inter', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: 6px;
+            background: linear-gradient(90deg,
+                #667eea 0%,
+                #764ba2 25%,
+                #f093fb 50%,
+                #667eea 75%,
+                #764ba2 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-transform: uppercase;
-            margin-bottom: 8px;
-            position: relative;
+            margin-bottom: 12px;
+            animation: textSlide 3s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        }
+
+        @keyframes textSlide {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
         }
 
         .loading-subtitle {
             font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            letter-spacing: 2px;
-            color: #8b6f47;
-            text-transform: lowercase;
-            font-style: italic;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f093fb);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            animation: subtitleFlow 4s ease-in-out infinite;
         }
 
-        /* Elegant Loading Animation */
+        @keyframes subtitleFlow {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Dynamic Progress Bar */
         .loading-animation {
             position: relative;
-            width: 200px;
-            height: 4px;
-            background: rgba(139, 111, 71, 0.2);
-            border-radius: 2px;
+            width: 300px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .loading-progress {
@@ -140,42 +290,28 @@
             left: 0;
             height: 100%;
             background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(218, 165, 32, 0.8) 25%,
-                #daa520 50%,
-                rgba(218, 165, 32, 0.8) 75%,
-                transparent 100%);
-            border-radius: 2px;
-            animation: shimmer 2.5s ease-in-out infinite;
+                #ff6b6b 0%,
+                #ffd93d 20%,
+                #6bcf7f 40%,
+                #4d9de0 60%,
+                #9b59b6 80%,
+                #ff6b6b 100%);
+            background-size: 200% 100%;
+            border-radius: 20px;
+            animation: progressRainbow 2s ease-in-out infinite, progressMove 3s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
         }
 
-        /* Shimmer effect overlay */
-        .shimmer-overlay {
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(255, 215, 0, 0.6) 50%,
-                transparent 100%);
-            animation: shimmerSweep 3s ease-in-out infinite;
-        }
-
-        /* Keyframe Animations */
-        @keyframes logoGlow {
+        @keyframes progressRainbow {
             0%, 100% {
-                filter: drop-shadow(0 0 10px rgba(218, 165, 32, 0.3));
-                transform: scale(1);
+                background-position: 0% 50%;
             }
             50% {
-                filter: drop-shadow(0 0 20px rgba(218, 165, 32, 0.5));
-                transform: scale(1.02);
+                background-position: 100% 50%;
             }
         }
 
-        @keyframes shimmer {
+        @keyframes progressMove {
             0% {
                 transform: translateX(-100%);
                 opacity: 0;
@@ -184,12 +320,26 @@
                 opacity: 1;
             }
             100% {
-                transform: translateX(200%);
+                transform: translateX(300%);
                 opacity: 0;
             }
         }
 
-        @keyframes shimmerSweep {
+        /* Enhanced shimmer effect */
+        .shimmer-overlay {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                transparent 100%);
+            animation: enhancedShimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes enhancedShimmer {
             0% {
                 left: -100%;
             }
@@ -198,49 +348,50 @@
             }
         }
 
-        @keyframes float {
+        @keyframes colorfulFloat {
             0%, 100% {
-                transform: translateY(100vh) scale(0);
+                transform: translateY(100vh) scale(0) rotate(0deg);
                 opacity: 0;
             }
             10% {
                 opacity: 1;
-                transform: translateY(90vh) scale(1);
+                transform: translateY(90vh) scale(1) rotate(36deg);
             }
             90% {
                 opacity: 1;
-                transform: translateY(-10vh) scale(1);
+                transform: translateY(-10vh) scale(1.2) rotate(324deg);
             }
             100% {
                 opacity: 0;
-                transform: translateY(-20vh) scale(0);
+                transform: translateY(-20vh) scale(0) rotate(360deg);
             }
         }
 
         /* Fade out transition */
         .fade-out {
             opacity: 0;
-            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             .loading-logo {
-                font-size: 56px;
+                font-size: 64px;
             }
 
             .loading-text {
-                font-size: 24px;
-                letter-spacing: 4px;
+                font-size: 28px;
+                letter-spacing: 3px;
             }
 
             .loading-subtitle {
-                font-size: 12px;
-                letter-spacing: 1px;
+                font-size: 14px;
+                letter-spacing: 2px;
             }
 
             .loading-animation {
-                width: 150px;
+                width: 250px;
+                height: 6px;
             }
 
             .brand-container {
@@ -250,16 +401,22 @@
 
         @media (max-width: 480px) {
             .loading-logo {
-                font-size: 48px;
+                font-size: 52px;
             }
 
             .loading-text {
-                font-size: 20px;
-                letter-spacing: 3px;
+                font-size: 24px;
+                letter-spacing: 2px;
+            }
+
+            .loading-subtitle {
+                font-size: 12px;
+                letter-spacing: 1px;
             }
 
             .loading-animation {
-                width: 120px;
+                width: 200px;
+                height: 5px;
             }
         }
     </style>
