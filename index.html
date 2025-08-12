@@ -630,12 +630,8 @@
     <!-- Vue App -->
     <div id="app"></div>
 
-    <!-- Vue App Initialization -->
-    <script type="module">
-        // Import and register all components
-        import store from './src/store/index.js';
-        import NewApp from './src/NewApp.vue';
-
+    <!-- Get Started Button Handler -->
+    <script>
         // Function to transition to home page
         function transitionToHomePage() {
             const loading = document.getElementById('loading');
@@ -645,36 +641,46 @@
             }, 800);
         }
 
+        // Initialize button handler immediately
+        document.addEventListener('DOMContentLoaded', function() {
+            const getStartedBtn = document.getElementById('getStartedBtn');
+            if (getStartedBtn) {
+                getStartedBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Get Started button clicked!');
+
+                    // Add click effect
+                    getStartedBtn.style.transform = 'translateY(-2px) scale(1.02)';
+
+                    // Transition to home page after brief delay
+                    setTimeout(function() {
+                        transitionToHomePage();
+                    }, 200);
+                });
+            }
+
+            // Optional: Auto-transition after 10 seconds if user doesn't click
+            setTimeout(function() {
+                const loading = document.getElementById('loading');
+                if (loading && loading.style.display !== 'none') {
+                    console.log('Auto-transitioning to home page');
+                    transitionToHomePage();
+                }
+            }, 10000); // 10 seconds fallback
+        });
+    </script>
+
+    <!-- Vue App Initialization -->
+    <script type="module">
+        // Import and register all components
+        import store from './src/store/index.js';
+        import NewApp from './src/NewApp.vue';
+
         // Initialize Vue app
         new Vue({
             el: '#app',
             store,
-            render: h => h(NewApp),
-            mounted() {
-                // Get Started button click handler
-                const getStartedBtn = document.getElementById('getStartedBtn');
-                if (getStartedBtn) {
-                    getStartedBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-
-                        // Add click effect
-                        getStartedBtn.style.transform = 'translateY(-2px) scale(1.02)';
-
-                        // Transition to home page after brief delay
-                        setTimeout(() => {
-                            transitionToHomePage();
-                        }, 200);
-                    });
-                }
-
-                // Optional: Auto-transition after 8 seconds if user doesn't click
-                setTimeout(() => {
-                    const loading = document.getElementById('loading');
-                    if (loading && loading.style.display !== 'none') {
-                        transitionToHomePage();
-                    }
-                }, 8000); // 8 seconds fallback
-            }
+            render: h => h(NewApp)
         });
     </script>
 
