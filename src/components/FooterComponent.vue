@@ -65,7 +65,7 @@
       
       <div class="footer-bottom">
         <div class="footer-bottom-content">
-          <p>&copy; 2024 SoleHub. All rights reserved.</p>
+          <p>&copy; 2024 Sole Hub. All rights reserved.</p>
           <div class="footer-legal">
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>
