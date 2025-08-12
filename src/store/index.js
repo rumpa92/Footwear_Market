@@ -105,9 +105,13 @@ const store = new Vuex.Store({
       sortBy: 'name'
     },
     user: {
-      isLoggedIn: false,
-      name: '',
-      favorites: []
+      isLoggedIn: true,
+      name: 'John Doe',
+      email: 'john@example.com',
+      avatar: null,
+      favorites: [],
+      orders: 5,
+      points: 1250
     },
     loading: false,
     searchQuery: ''
