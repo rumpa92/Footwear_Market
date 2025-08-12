@@ -1,21 +1,10 @@
 <template>
   <div id="app">
-    <HeaderComponent @show-auth="showAuthModal" />
-    <main class="main-content">
-      <div class="container">
-        <div class="page-layout">
-          <aside class="sidebar">
-            <FiltersComponent />
-          </aside>
-          <div class="content">
-            <HeroSection v-if="!searchQuery" />
-            <ProductGrid />
-          </div>
-        </div>
-      </div>
-    </main>
+    <!-- Use the new comprehensive homepage -->
+    <ComprehensiveHomepage />
+
+    <!-- Keep existing cart sidebar and auth modal -->
     <CartSidebar />
-    <FooterComponent />
 
     <!-- Authentication Modal -->
     <AuthModal
@@ -30,23 +19,15 @@
 
 <script>
 import { mapState } from 'vuex'
-import HeaderComponent from './components/HeaderComponent.vue'
-import FiltersComponent from './components/FiltersComponent.vue'
-import HeroSection from './components/HeroSection.vue'
-import ProductGrid from './components/ProductGrid.vue'
+import ComprehensiveHomepage from './components/ComprehensiveHomepage.vue'
 import CartSidebar from './components/CartSidebar.vue'
-import FooterComponent from './components/FooterComponent.vue'
 import AuthModal from './components/AuthModal.vue'
 
 export default {
   name: 'App',
   components: {
-    HeaderComponent,
-    FiltersComponent,
-    HeroSection,
-    ProductGrid,
+    ComprehensiveHomepage,
     CartSidebar,
-    FooterComponent,
     AuthModal
   },
   data() {
