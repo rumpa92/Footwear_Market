@@ -636,20 +636,44 @@
         import store from './src/store/index.js';
         import NewApp from './src/NewApp.vue';
 
+        // Function to transition to home page
+        function transitionToHomePage() {
+            const loading = document.getElementById('loading');
+            loading.classList.add('fade-out');
+            setTimeout(() => {
+                loading.style.display = 'none';
+            }, 800);
+        }
+
         // Initialize Vue app
         new Vue({
             el: '#app',
             store,
             render: h => h(NewApp),
             mounted() {
-                // Hide fashion splash screen after elegant timing
+                // Get Started button click handler
+                const getStartedBtn = document.getElementById('getStartedBtn');
+                if (getStartedBtn) {
+                    getStartedBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+
+                        // Add click effect
+                        getStartedBtn.style.transform = 'translateY(-2px) scale(1.02)';
+
+                        // Transition to home page after brief delay
+                        setTimeout(() => {
+                            transitionToHomePage();
+                        }, 200);
+                    });
+                }
+
+                // Optional: Auto-transition after 8 seconds if user doesn't click
                 setTimeout(() => {
                     const loading = document.getElementById('loading');
-                    loading.classList.add('fade-out');
-                    setTimeout(() => {
-                        loading.style.display = 'none';
-                    }, 800);
-                }, 2500); // 2.5 seconds for premium feel
+                    if (loading && loading.style.display !== 'none') {
+                        transitionToHomePage();
+                    }
+                }, 8000); // 8 seconds fallback
             }
         });
     </script>
