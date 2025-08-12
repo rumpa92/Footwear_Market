@@ -1,21 +1,10 @@
 <template>
   <div id="app">
-    <HeaderComponent @show-auth="showAuthModal" />
-    <main class="main-content">
-      <div class="container">
-        <div class="page-layout">
-          <aside class="sidebar">
-            <FiltersComponent />
-          </aside>
-          <div class="content">
-            <HeroSection v-if="!searchQuery" />
-            <ProductGrid />
-          </div>
-        </div>
-      </div>
-    </main>
+    <!-- Use the new comprehensive homepage -->
+    <ComprehensiveHomepage />
+
+    <!-- Keep existing cart sidebar and auth modal -->
     <CartSidebar />
-    <FooterComponent />
 
     <!-- Authentication Modal -->
     <AuthModal
