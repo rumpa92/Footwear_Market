@@ -671,18 +671,871 @@
     </script>
 
     <!-- Vue App Initialization -->
-    <script type="module">
-        // Import and register all components
-        import store from './src/store/index.js';
-        import NewApp from './src/NewApp.vue';
-
-        // Initialize Vue app
+    <script>
+        // Simple Vue app initialization for now
         new Vue({
             el: '#app',
-            store,
-            render: h => h(NewApp)
+            data() {
+                return {
+                    // Modal states
+                    authModalVisible: false,
+                    locationModalVisible: false,
+                    voiceSearchActive: false,
+                    showGuestPrompt: false,
+
+                    // App state
+                    user: { isLoggedIn: false, name: '', email: '' },
+                    userLocation: null,
+                    searchQuery: '',
+
+                    // Sample products for demo
+                    featuredProducts: [
+                        {
+                            id: 1,
+                            name: "Air Max Premium",
+                            brand: "Nike",
+                            price: 129.99,
+                            originalPrice: 159.99,
+                            image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",
+                            rating: 4.8,
+                            reviews: 247,
+                            isNew: true,
+                            isSale: true
+                        },
+                        {
+                            id: 2,
+                            name: "Classic Runner",
+                            brand: "Adidas",
+                            price: 89.99,
+                            image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400",
+                            rating: 4.6,
+                            reviews: 189,
+                            isNew: false,
+                            isSale: false
+                        },
+                        {
+                            id: 3,
+                            name: "Urban Walker",
+                            brand: "Puma",
+                            price: 79.99,
+                            originalPrice: 99.99,
+                            image: "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=400",
+                            rating: 4.7,
+                            reviews: 156,
+                            isNew: false,
+                            isSale: true
+                        }
+                    ]
+                }
+            },
+            methods: {
+                // Feature 1: Sign Up & Sign In
+                showAuthModal() {
+                    this.authModalVisible = true;
+                    console.log('Opening authentication modal');
+                },
+
+                hideAuthModal() {
+                    this.authModalVisible = false;
+                },
+
+                handleSignIn() {
+                    // Demo sign-in
+                    this.user = { isLoggedIn: true, name: 'John Doe', email: 'john@example.com' };
+                    this.hideAuthModal();
+                    this.showToast('Welcome back!', 'success');
+                },
+
+                // Feature 2: Location Search
+                showLocationModal() {
+                    this.locationModalVisible = true;
+                    console.log('Opening location search modal');
+                },
+
+                hideLocationModal() {
+                    this.locationModalVisible = false;
+                },
+
+                autoDetectLocation() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition((position) => {
+                            this.userLocation = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude,
+                                city: 'Your Location'
+                            };
+                            this.showToast('Location detected!', 'success');
+                        });
+                    }
+                },
+
+                // Feature 4: Search
+                handleSearch() {
+                    console.log('Searching for:', this.searchQuery);
+                    this.showToast(`Searching for "${this.searchQuery}"`, 'info');
+                },
+
+                // Feature 5: Voice Search
+                handleVoiceSearch() {
+                    this.voiceSearchActive = true;
+                    console.log('Starting voice search');
+
+                    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                        const recognition = new SpeechRecognition();
+
+                        recognition.onresult = (event) => {
+                            this.searchQuery = event.results[0][0].transcript;
+                            this.voiceSearchActive = false;
+                            this.handleSearch();
+                        };
+
+                        recognition.onerror = () => {
+                            this.voiceSearchActive = false;
+                            this.showToast('Voice search failed', 'error');
+                        };
+
+                        recognition.start();
+                    } else {
+                        this.voiceSearchActive = false;
+                        this.showToast('Voice search not supported', 'error');
+                    }
+                },
+
+                // Feature 3: Guest Browsing (handled in checkout)
+                requireAuth(action) {
+                    if (!this.user.isLoggedIn) {
+                        this.showGuestPrompt = true;
+                        console.log('Authentication required for:', action);
+                    }
+                    return this.user.isLoggedIn;
+                },
+
+                // Utility functions
+                showToast(message, type = 'info') {
+                    console.log(`${type.toUpperCase()}: ${message}`);
+
+                    // Create toast element
+                    const toast = document.createElement('div');
+                    toast.style.cssText = `
+                        position: fixed;
+                        top: 100px;
+                        right: 20px;
+                        background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#007bff'};
+                        color: white;
+                        padding: 12px 20px;
+                        border-radius: 8px;
+                        font-weight: 600;
+                        z-index: 10000;
+                        animation: slideIn 0.3s ease-out;
+                    `;
+                    toast.textContent = message;
+
+                    document.body.appendChild(toast);
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 3000);
+                }
+            },
+            template: `
+                <div class="sole-hub-app">
+                    <!-- Feature 1 & 4 & 5: Enhanced Header with Auth, Search, Voice -->
+                    <header class="main-header">
+                        <div class="header-container">
+                            <!-- Feature 2: Location -->
+                            <div class="location-section">
+                                <button @click="showLocationModal" class="location-btn">
+                                    📍 {{ userLocation ? userLocation.city : 'Select Location' }}
+                                </button>
+                            </div>
+
+                            <!-- Logo -->
+                            <div class="logo-section">
+                                <h1 class="logo">👟 SOLE HUB</h1>
+                            </div>
+
+                            <!-- Feature 4 & 5: Search with Voice -->
+                            <div class="search-section">
+                                <div class="search-container">
+                                    <input
+                                        v-model="searchQuery"
+                                        @keyup.enter="handleSearch"
+                                        placeholder="Search for shoes, brands..."
+                                        class="search-input"
+                                    />
+                                    <button @click="handleVoiceSearch" class="voice-btn" :class="{ active: voiceSearchActive }">
+                                        🎤
+                                    </button>
+                                    <button @click="handleSearch" class="search-btn">🔍</button>
+                                </div>
+                            </div>
+
+                            <!-- Feature 1: Auth -->
+                            <div class="auth-section">
+                                <button v-if="!user.isLoggedIn" @click="showAuthModal" class="auth-btn">
+                                    👤 Sign In
+                                </button>
+                                <div v-else class="user-menu">
+                                    <span>Hi, {{ user.name.split(' ')[0] }}!</span>
+                                    <button @click="user.isLoggedIn = false" class="logout-btn">Logout</button>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- Feature 7: Seasonal Campaign Banners -->
+                    <section class="hero-banners">
+                        <div class="banner-container">
+                            <div class="banner active">
+                                <div class="banner-content">
+                                    <h2>🌟 Holiday Sale - Up to 50% Off</h2>
+                                    <p>Premium footwear from top brands</p>
+                                    <button class="cta-btn">Shop Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Feature 6: Personalized Homepage -->
+                    <main class="main-content">
+                        <div class="container">
+                            <!-- Category Navigation -->
+                            <section class="categories">
+                                <h3>Shop by Category</h3>
+                                <div class="category-chips">
+                                    <button class="category-chip">👟 Sneakers</button>
+                                    <button class="category-chip">👠 Formal</button>
+                                    <button class="category-chip">🥾 Boots</button>
+                                    <button class="category-chip">🏃 Athletic</button>
+                                    <button class="category-chip">👡 Casual</button>
+                                </div>
+                            </section>
+
+                            <!-- Feature 6: Personalized Recommendations -->
+                            <section v-if="user.isLoggedIn" class="personalized-section">
+                                <h3>🎯 Recommended for You</h3>
+                                <div class="products-grid">
+                                    <div v-for="product in featuredProducts" :key="product.id" class="product-card">
+                                        <div class="product-image">
+                                            <img :src="product.image" :alt="product.name" />
+                                            <div class="product-badges">
+                                                <span v-if="product.isNew" class="badge new">NEW</span>
+                                                <span v-if="product.isSale" class="badge sale">SALE</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-info">
+                                            <h4>{{ product.name }}</h4>
+                                            <p class="brand">{{ product.brand }}</p>
+                                            <div class="rating">
+                                                ⭐ {{ product.rating }} ({{ product.reviews }})
+                                            </div>
+                                            <div class="price">
+                                                <span class="current-price">\${{ product.price }}</span>
+                                                <span v-if="product.originalPrice" class="original-price">\${{ product.originalPrice }}</span>
+                                            </div>
+                                            <button @click="requireAuth('cart')" class="add-to-cart-btn">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- Guest Users - Featured Products -->
+                            <section v-else class="featured-section">
+                                <h3>✨ Featured Products</h3>
+                                <div class="products-grid">
+                                    <div v-for="product in featuredProducts" :key="product.id" class="product-card">
+                                        <div class="product-image">
+                                            <img :src="product.image" :alt="product.name" />
+                                            <div class="product-badges">
+                                                <span v-if="product.isNew" class="badge new">NEW</span>
+                                                <span v-if="product.isSale" class="badge sale">SALE</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-info">
+                                            <h4>{{ product.name }}</h4>
+                                            <p class="brand">{{ product.brand }}</p>
+                                            <div class="rating">
+                                                ⭐ {{ product.rating }} ({{ product.reviews }})
+                                            </div>
+                                            <div class="price">
+                                                <span class="current-price">\${{ product.price }}</span>
+                                                <span v-if="product.originalPrice" class="original-price">\${{ product.originalPrice }}</span>
+                                            </div>
+                                            <button @click="requireAuth('cart')" class="add-to-cart-btn">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </main>
+
+                    <!-- Feature 1: Authentication Modal -->
+                    <div v-if="authModalVisible" class="modal-overlay" @click="hideAuthModal">
+                        <div class="modal-content" @click.stop>
+                            <div class="auth-modal">
+                                <h2>Welcome to Sole Hub</h2>
+                                <p>Sign in to access personalized recommendations</p>
+                                <div class="auth-buttons">
+                                    <button @click="handleSignIn" class="auth-method-btn google">
+                                        🔗 Continue with Google
+                                    </button>
+                                    <button @click="handleSignIn" class="auth-method-btn apple">
+                                        🍎 Continue with Apple
+                                    </button>
+                                    <button @click="handleSignIn" class="auth-method-btn email">
+                                        📧 Continue with Email
+                                    </button>
+                                </div>
+                                <button @click="hideAuthModal" class="close-btn">✕</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 2: Location Modal -->
+                    <div v-if="locationModalVisible" class="modal-overlay" @click="hideLocationModal">
+                        <div class="modal-content" @click.stop>
+                            <div class="location-modal">
+                                <h2>Select Your Location</h2>
+                                <button @click="autoDetectLocation(); hideLocationModal()" class="location-option">
+                                    📍 Auto-detect my location
+                                </button>
+                                <div class="location-search">
+                                    <input placeholder="Enter city, zip code..." class="location-input" />
+                                    <button class="search-location-btn">Search</button>
+                                </div>
+                                <button @click="hideLocationModal" class="close-btn">✕</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 3: Guest Prompt -->
+                    <div v-if="showGuestPrompt" class="modal-overlay" @click="showGuestPrompt = false">
+                        <div class="modal-content" @click.stop>
+                            <div class="guest-prompt">
+                                <h3>Sign in to continue</h3>
+                                <p>Create an account to save items and get personalized recommendations</p>
+                                <div class="guest-actions">
+                                    <button @click="showAuthModal(); showGuestPrompt = false" class="sign-in-btn">Sign In</button>
+                                    <button @click="showGuestPrompt = false" class="continue-guest-btn">Continue as Guest</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `
         });
     </script>
+
+    <!-- Enhanced Styles for All Features -->
+    <style>
+        /* Add comprehensive styles after Vue app loads */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fafafa;
+            color: #333;
+        }
+
+        .sole-hub-app {
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr auto 2fr 1fr;
+            align-items: center;
+            gap: 20px;
+            min-height: 70px;
+        }
+
+        .location-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .search-container {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 25px;
+            padding: 2px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 12px 20px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .voice-btn, .search-btn {
+            background: transparent;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 50%;
+        }
+
+        .voice-btn.active {
+            background: #ff4757;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .auth-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logout-btn {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* Banner Styles */
+        .hero-banners {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .banner-content h2 {
+            font-size: 48px;
+            margin-bottom: 16px;
+            font-weight: 800;
+        }
+
+        .banner-content p {
+            font-size: 20px;
+            margin-bottom: 32px;
+            opacity: 0.9;
+        }
+
+        .cta-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .categories {
+            margin-bottom: 48px;
+        }
+
+        .categories h3 {
+            font-size: 28px;
+            margin-bottom: 24px;
+            font-weight: 700;
+        }
+
+        .category-chips {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .category-chip {
+            background: white;
+            border: 2px solid #e1e5e9;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .category-chip:hover {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        /* Product Grid */
+        .personalized-section, .featured-section {
+            margin-bottom: 48px;
+        }
+
+        .personalized-section h3, .featured-section h3 {
+            font-size: 28px;
+            margin-bottom: 32px;
+            font-weight: 700;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .product-image {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-badges {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge.new {
+            background: #4facfe;
+            color: white;
+        }
+
+        .badge.sale {
+            background: #fa709a;
+            color: white;
+        }
+
+        .product-info {
+            padding: 24px;
+        }
+
+        .product-info h4 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .brand {
+            color: #666;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .rating {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .price {
+            margin-bottom: 20px;
+        }
+
+        .current-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .original-price {
+            font-size: 18px;
+            color: #999;
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .add-to-cart-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .auth-modal h2 {
+            text-align: center;
+            margin-bottom: 16px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .auth-modal p {
+            text-align: center;
+            margin-bottom: 32px;
+            color: #666;
+        }
+
+        .auth-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .auth-method-btn {
+            padding: 16px 24px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            background: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 16px;
+        }
+
+        .auth-method-btn:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .location-modal h2 {
+            margin-bottom: 24px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .location-option {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .location-search {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .location-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .search-location-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .guest-prompt {
+            text-align: center;
+        }
+
+        .guest-prompt h3 {
+            margin-bottom: 16px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .guest-prompt p {
+            margin-bottom: 32px;
+            color: #666;
+        }
+
+        .guest-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .sign-in-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .continue-guest-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 16px;
+            }
+
+            .banner-content h2 {
+                font-size: 32px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .category-chips {
+                justify-content: center;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
 
     <!-- Alternative script for browsers without module support -->
     <script nomodule>
