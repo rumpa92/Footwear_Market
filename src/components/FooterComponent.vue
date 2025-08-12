@@ -4,7 +4,7 @@
       <div class="footer-content">
         <div class="footer-section">
           <div class="brand">
-            <h3>👟 SoleHub</h3>
+            <h3>👟 Sole Hub</h3>
             <p>Your ultimate destination for premium footwear. Step into style with confidence.</p>
             <div class="social-links">
               <a href="#" class="social-link">📘</a>
