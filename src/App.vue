@@ -36,6 +36,7 @@ import HeroSection from './components/HeroSection.vue'
 import ProductGrid from './components/ProductGrid.vue'
 import CartSidebar from './components/CartSidebar.vue'
 import FooterComponent from './components/FooterComponent.vue'
+import AuthModal from './components/AuthModal.vue'
 
 export default {
   name: 'App',
@@ -45,10 +46,38 @@ export default {
     HeroSection,
     ProductGrid,
     CartSidebar,
-    FooterComponent
+    FooterComponent,
+    AuthModal
+  },
+  data() {
+    return {
+      authModalVisible: false
+    }
   },
   computed: {
     ...mapState(['searchQuery'])
+  },
+  methods: {
+    showAuthModal() {
+      this.authModalVisible = true
+    },
+    hideAuthModal() {
+      this.authModalVisible = false
+    },
+    handleSignInSuccess(userData) {
+      console.log('Sign in successful:', userData)
+      this.$store.dispatch('loginUser', userData)
+      // Show success message or redirect
+    },
+    handleSignUpSuccess(userData) {
+      console.log('Sign up successful:', userData)
+      this.$store.dispatch('loginUser', { name: userData.firstName + ' ' + userData.lastName })
+      // Show success message or redirect
+    },
+    handleSocialLogin(provider) {
+      console.log('Social login with:', provider)
+      // Would integrate with actual social auth
+    }
   },
   mounted() {
     this.$store.dispatch('loadProducts')
