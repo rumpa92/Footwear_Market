@@ -26,12 +26,8 @@ import AuthModal from './components/AuthModal.vue'
 export default {
   name: 'App',
   components: {
-    HeaderComponent,
-    FiltersComponent,
-    HeroSection,
-    ProductGrid,
+    ComprehensiveHomepage,
     CartSidebar,
-    FooterComponent,
     AuthModal
   },
   data() {
