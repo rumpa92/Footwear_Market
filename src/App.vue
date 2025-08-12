@@ -19,12 +19,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import HeaderComponent from './components/HeaderComponent.vue'
-import FiltersComponent from './components/FiltersComponent.vue'
-import HeroSection from './components/HeroSection.vue'
-import ProductGrid from './components/ProductGrid.vue'
+import ComprehensiveHomepage from './components/ComprehensiveHomepage.vue'
 import CartSidebar from './components/CartSidebar.vue'
-import FooterComponent from './components/FooterComponent.vue'
 import AuthModal from './components/AuthModal.vue'
 
 export default {
