@@ -458,13 +458,13 @@
     <script type="module">
         // Import and register all components
         import store from './src/store/index.js';
-        import App from './src/App.vue';
+        import NewApp from './src/NewApp.vue';
 
         // Initialize Vue app
         new Vue({
             el: '#app',
             store,
-            render: h => h(App),
+            render: h => h(NewApp),
             mounted() {
                 // Hide fashion splash screen after elegant timing
                 setTimeout(() => {
