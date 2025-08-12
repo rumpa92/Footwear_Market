@@ -876,8 +876,23 @@
                                     👤 Sign In
                                 </button>
                                 <div v-else class="user-menu">
-                                    <span>Hi, {{ user.name.split(' ')[0] }}!</span>
-                                    <button @click="user.isLoggedIn = false" class="logout-btn">Logout</button>
+                                    <div class="user-profile">
+                                        <span class="user-avatar">👤</span>
+                                        <span class="user-name">Hi, {{ user.name.split(' ')[0] }}!</span>
+                                    </div>
+                                    <div class="user-dropdown">
+                                        <button @click="toggleUserMenu" class="user-menu-btn">⏷</button>
+                                        <div v-if="showUserDropdown" class="dropdown-menu">
+                                            <a href="#" class="dropdown-item">👤 My Profile</a>
+                                            <a href="#" class="dropdown-item">📦 My Orders</a>
+                                            <a href="#" class="dropdown-item">❤️ Wishlist</a>
+                                            <a href="#" class="dropdown-item">⚙️ Settings</a>
+                                            <hr class="dropdown-divider">
+                                            <button @click="handleLogout" class="dropdown-item logout-item">
+                                                🚪 Logout
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
