@@ -854,7 +854,7 @@
       <div class="modal-content cart-overlay" @click.stop>
         <div class="cart-header">
           <h3>Shopping Cart ({{ cartCount }})</h3>
-          <button @click="closeCartOverlay" class="close-btn">��</button>
+          <button @click="closeCartOverlay" class="close-btn">✕</button>
         </div>
         <div class="cart-content">
           <div v-if="cartCount === 0" class="empty-cart">
@@ -1598,14 +1598,11 @@ export default {
     },
 
     // Cart functionality
-    updateQuantity(itemId, change) {
-      const item = this.cartItems.find(item => item.id === itemId)
+    updateQuantity(cartId, change) {
+      const item = this.cartItems.find(item => item.cartId === cartId)
       if (item) {
-        item.quantity += change
-        if (item.quantity <= 0) {
-          this.cartItems = this.cartItems.filter(item => item.id !== itemId)
-          this.cartCount--
-        }
+        const newQuantity = item.quantity + change
+        this.$store.dispatch('updateCartQuantity', { cartId, quantity: newQuantity })
       }
     },
 
