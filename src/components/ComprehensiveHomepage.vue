@@ -498,23 +498,23 @@
               <div class="deal-banner">
                 <h3>Under ₹999</h3>
                 <p>Handpicked styles under budget</p>
-                <button class="deal-cta">Shop Under ₹999</button>
+                <button class="deal-cta">Shop Deals</button>
               </div>
             </div>
-            
+
             <div class="deal-highlight">
               <div class="deal-banner sale">
-                <h3>50% Off Sale</h3>
-                <p>Premium brands at half price</p>
-                <button class="deal-cta">Shop 50% Off</button>
+                <h3>Flat 50% Off</h3>
+                <p>Premium brands at unbeatable prices</p>
+                <button class="deal-cta">Shop Deals</button>
               </div>
             </div>
-            
+
             <div class="deal-highlight">
               <div class="deal-banner exclusive">
-                <h3>Buy 2 Get 1 Free</h3>
-                <p>Mix and match your favorites</p>
-                <button class="deal-cta">Shop Combo Deals</button>
+                <h3>Flash Sale</h3>
+                <p>Limited time mega savings</p>
+                <button class="deal-cta">Shop Deals</button>
               </div>
             </div>
           </div>
