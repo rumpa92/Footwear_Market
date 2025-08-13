@@ -545,10 +545,10 @@
             <div class="feature-promo pickup-option">
               <div class="feature-content">
                 <div class="feature-icon">🏪</div>
-                <h3>Order Online, Collect In-Store</h3>
-                <p>Free pickup from 500+ locations nationwide</p>
+                <h3>Order Online, Pick Up In-Store</h3>
+                <p>Fast & Free pickup from stores near you</p>
                 <span class="feature-badge">Free & Fast</span>
-                <button class="feature-cta">Find Stores</button>
+                <button class="feature-cta">Check Nearby Stores</button>
               </div>
               <div class="feature-visual">
                 <div class="store-locator">
