@@ -4029,6 +4029,30 @@ export default {
   background: #ff3742;
 }
 
+.remove-item-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #ff4757;
+  color: white;
+  border: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.remove-item-btn:hover {
+  background: #ff3742;
+  transform: scale(1.1);
+}
+
 .cart-footer {
   border-top: 1px solid #e1e5e9;
   padding-top: 16px;
