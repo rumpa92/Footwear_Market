@@ -920,6 +920,7 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 import PremiumAuthModal from './PremiumAuthModal.vue'
 
 export default {
