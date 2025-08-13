@@ -143,7 +143,7 @@
                 <a href="#" class="menu-item">Settings</a>
                 <div class="menu-divider"></div>
                 <button v-if="user.isLoggedIn" @click="logout" class="menu-item logout">Sign Out</button>
-                <button v-else @click="showAuthModal = true" class="menu-item">Sign In</button>
+                <button v-else @click="openAuthModal" class="menu-item">Sign In</button>
               </div>
             </div>
           </div>
