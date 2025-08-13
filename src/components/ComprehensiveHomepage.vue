@@ -556,7 +556,7 @@
                   <div class="map-mockup">
                     <div class="store-pins">
                       <div class="store-pin">📍</div>
-                      <div class="store-pin">📍</div>
+                      <div class="store-pin">���</div>
                       <div class="store-pin">📍</div>
                     </div>
                   </div>
@@ -942,7 +942,7 @@ export default {
       
       // Arrivals tabs
       arrivalsTabs: [
-        { id: 'new-arrivals', name: 'New Arrivals', icon: '✨', count: 127 },
+        { id: 'new-arrivals', name: 'Fresh Arrivals', icon: '✨', count: 127 },
         { id: 'best-sellers', name: 'Best Sellers', icon: '🔥', count: 89 },
         { id: 'trending', name: 'Trending', icon: '📈', count: 156 }
       ],
