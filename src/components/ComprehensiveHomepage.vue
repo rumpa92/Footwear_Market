@@ -556,7 +556,7 @@
                   <div class="map-mockup">
                     <div class="store-pins">
                       <div class="store-pin">📍</div>
-                      <div class="store-pin">���</div>
+                      <div class="store-pin">📍</div>
                       <div class="store-pin">📍</div>
                     </div>
                   </div>
@@ -821,7 +821,102 @@
         <div class="support-badge">Live</div>
       </button>
     </div>
-    
+
+    <!-- Voice Shopping Modal -->
+    <div v-if="showVoiceModal" class="modal-overlay" @click="closeVoiceModal">
+      <div class="modal-content voice-modal" @click.stop>
+        <div class="voice-modal-content">
+          <div class="voice-animation">
+            <div class="voice-circle" :class="{ 'listening': isListening }"></div>
+            <div class="voice-waves">
+              <div class="wave"></div>
+              <div class="wave"></div>
+              <div class="wave"></div>
+            </div>
+          </div>
+          <h3>Speak now to find your perfect pair…</h3>
+          <p v-if="!isListening" class="voice-instruction">Click the microphone to start</p>
+          <p v-else class="voice-instruction listening">Listening...</p>
+          <button v-if="!isListening" @click="startVoiceSearch" class="voice-start-btn">
+            <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+              <line x1="12" y1="19" x2="12" y2="23"></line>
+              <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+          </button>
+          <button @click="closeVoiceModal" class="voice-close-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div v-if="showCartOverlay" class="modal-overlay" @click="closeCartOverlay">
+      <div class="modal-content cart-overlay" @click.stop>
+        <div class="cart-header">
+          <h3>Shopping Cart ({{ cartCount }})</h3>
+          <button @click="closeCartOverlay" class="close-btn">✕</button>
+        </div>
+        <div class="cart-content">
+          <div v-if="cartCount === 0" class="empty-cart">
+            <div class="empty-icon">🛒</div>
+            <p>Your cart is empty</p>
+            <button @click="closeCartOverlay" class="continue-shopping-btn">Continue Shopping</button>
+          </div>
+          <div v-else class="cart-items">
+            <div v-for="item in cartItems" :key="item.id" class="cart-item">
+              <img :src="item.image" :alt="item.name" class="cart-item-image" />
+              <div class="cart-item-info">
+                <h4>{{ item.name }}</h4>
+                <p class="cart-item-brand">{{ item.brand }}</p>
+                <p class="cart-item-price">${{ item.price }}</p>
+              </div>
+              <div class="cart-item-quantity">
+                <button @click="updateQuantity(item.id, -1)" class="qty-btn">−</button>
+                <span class="qty">{{ item.quantity }}</span>
+                <button @click="updateQuantity(item.id, 1)" class="qty-btn">+</button>
+              </div>
+            </div>
+            <div class="cart-footer">
+              <div class="cart-total">
+                <strong>Total: ${{ cartTotal }}</strong>
+              </div>
+              <button class="checkout-btn">Proceed to Checkout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wishlist Overlay -->
+    <div v-if="showWishlistOverlay" class="modal-overlay" @click="closeWishlistOverlay">
+      <div class="modal-content wishlist-overlay" @click.stop>
+        <div class="wishlist-header">
+          <h3>Wishlist ({{ wishlistCount }})</h3>
+          <button @click="closeWishlistOverlay" class="close-btn">✕</button>
+        </div>
+        <div class="wishlist-content">
+          <div v-if="wishlistCount === 0" class="empty-wishlist">
+            <div class="empty-icon">❤️</div>
+            <p>Your wishlist is empty</p>
+            <button @click="closeWishlistOverlay" class="continue-shopping-btn">Start Shopping</button>
+          </div>
+          <div v-else class="wishlist-items">
+            <div v-for="item in wishlistItems" :key="item.id" class="wishlist-item">
+              <img :src="item.image" :alt="item.name" class="wishlist-item-image" />
+              <div class="wishlist-item-info">
+                <h4>{{ item.name }}</h4>
+                <p class="wishlist-item-brand">{{ item.brand }}</p>
+                <p class="wishlist-item-price">${{ item.price }}</p>
+                <button @click="moveToCart(item)" class="move-to-cart-btn">Add to Cart</button>
+              </div>
+              <button @click="removeFromWishlist(item.id)" class="remove-wishlist-btn">✕</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
