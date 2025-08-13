@@ -858,7 +858,7 @@
         </div>
         <div class="cart-content">
           <div v-if="cartCount === 0" class="empty-cart">
-            <div class="empty-icon">����</div>
+            <div class="empty-icon">🛒</div>
             <p>Your cart is empty</p>
             <button @click="closeCartOverlay" class="continue-shopping-btn">Continue Shopping</button>
           </div>
@@ -1238,6 +1238,14 @@ export default {
           productName: 'Adidas Ultraboost'
         }
       ]
+    }
+  },
+  computed: {
+    ...mapState(['cart']),
+    ...mapGetters(['cartItemCount', 'cartTotal']),
+
+    cartCount() {
+      return this.cartItemCount
     }
   },
   mounted() {
