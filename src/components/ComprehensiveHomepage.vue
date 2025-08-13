@@ -3935,6 +3935,22 @@ export default {
   font-weight: 600;
 }
 
+.cart-item-variants {
+  display: flex;
+  gap: 8px;
+  margin: 4px 0;
+}
+
+.variant {
+  background: #f0f0f0;
+  color: #666;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
 .cart-item-price,
 .wishlist-item-price {
   font-size: 16px;
