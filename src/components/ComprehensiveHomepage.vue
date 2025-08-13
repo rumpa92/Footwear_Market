@@ -28,7 +28,7 @@
               @focus="handleSearchFocus"
               @blur="handleSearchBlur"
               @input="handleSearchInput"
-              placeholder="Search by brand, style, or size..."
+              placeholder="Search for sneakers, brands, or styles..."
               class="search-input"
             />
             
@@ -929,7 +929,7 @@ export default {
         { id: 'price', label: 'Under ₹999', icon: '💰', active: false },
         { id: 'size', label: 'Size Guide', icon: '📏', active: false },
         { id: 'new', label: 'New Arrivals', icon: '✨', badge: 'NEW', active: false },
-        { id: 'sale', label: 'On Sale', icon: '🏷️', badge: '50%', active: false },
+        { id: 'sale', label: 'On Sale', icon: '🏷���', badge: '50%', active: false },
         { id: 'premium', label: 'Premium Brands', icon: '👑', active: false }
       ],
       
