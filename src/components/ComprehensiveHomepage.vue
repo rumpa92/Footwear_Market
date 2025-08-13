@@ -812,6 +812,15 @@
       </button>
     </div>
 
+    <!-- Premium Authentication Modal -->
+    <PremiumAuthModal
+      :visible="showAuthModal"
+      @close="hideAuthModal"
+      @signin-success="handleSignInSuccess"
+      @signup-success="handleSignUpSuccess"
+      @social-login="handleSocialLogin"
+    />
+
     <!-- Voice Shopping Modal -->
     <div v-if="showVoiceModal" class="modal-overlay" @click="closeVoiceModal">
       <div class="modal-content voice-modal" @click.stop>
