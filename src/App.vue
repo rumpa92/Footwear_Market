@@ -6,47 +6,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import ComprehensiveHomepage from './components/ComprehensiveHomepage.vue'
-import CartSidebar from './components/CartSidebar.vue'
-import AuthModal from './components/AuthModal.vue'
 
 export default {
   name: 'App',
   components: {
-    ComprehensiveHomepage,
-    CartSidebar,
-    AuthModal
-  },
-  data() {
-    return {
-      authModalVisible: false
-    }
-  },
-  computed: {
-    ...mapState(['searchQuery'])
-  },
-  methods: {
-    showAuthModal() {
-      this.authModalVisible = true
-    },
-    hideAuthModal() {
-      this.authModalVisible = false
-    },
-    handleSignInSuccess(userData) {
-      console.log('Sign in successful:', userData)
-      this.$store.dispatch('loginUser', userData)
-      // Show success message or redirect
-    },
-    handleSignUpSuccess(userData) {
-      console.log('Sign up successful:', userData)
-      this.$store.dispatch('loginUser', { name: userData.firstName + ' ' + userData.lastName })
-      // Show success message or redirect
-    },
-    handleSocialLogin(provider) {
-      console.log('Social login with:', provider)
-      // Would integrate with actual social auth
-    }
+    ComprehensiveHomepage
   },
   mounted() {
     this.$store.dispatch('loadProducts')
