@@ -272,7 +272,7 @@
           <div class="section-header">
             <div class="section-title-group">
               <h2 class="section-title">
-                <span class="title-icon">����</span>
+                <span class="title-icon">🎯</span>
                 Because You Liked...
               </h2>
               <p class="section-subtitle">Your Perfect Picks - AI-powered recommendations</p>
@@ -1347,11 +1347,19 @@ export default {
     
     // Header actions
     openWishlist() {
-      console.log('Open wishlist')
+      this.showWishlistOverlay = true
     },
-    
+
     openCart() {
-      console.log('Open cart')
+      this.showCartOverlay = true
+    },
+
+    closeCartOverlay() {
+      this.showCartOverlay = false
+    },
+
+    closeWishlistOverlay() {
+      this.showWishlistOverlay = false
     },
     
     toggleProfileMenu() {
