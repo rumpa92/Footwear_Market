@@ -1631,6 +1631,10 @@ export default {
       this.wishlistCount--
     },
 
+    removeFromCart(cartId) {
+      this.$store.dispatch('removeFromCart', cartId)
+    },
+
     // Authentication methods
     openAuthModal() {
       this.showAuthModal = true
