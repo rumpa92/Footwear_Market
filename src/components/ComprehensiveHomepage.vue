@@ -863,18 +863,23 @@
             <button @click="closeCartOverlay" class="continue-shopping-btn">Continue Shopping</button>
           </div>
           <div v-else class="cart-items">
-            <div v-for="item in cartItems" :key="item.id" class="cart-item">
+            <div v-for="item in cartItems" :key="item.cartId" class="cart-item">
               <img :src="item.image" :alt="item.name" class="cart-item-image" />
               <div class="cart-item-info">
                 <h4>{{ item.name }}</h4>
                 <p class="cart-item-brand">{{ item.brand }}</p>
-                <p class="cart-item-price">${{ item.price }}</p>
+                <div class="cart-item-variants" v-if="item.color || item.size">
+                  <span v-if="item.color" class="variant">{{ item.color }}</span>
+                  <span v-if="item.size" class="variant">Size {{ item.size }}</span>
+                </div>
+                <p class="cart-item-price">${{ item.price.toFixed(2) }}</p>
               </div>
               <div class="cart-item-quantity">
-                <button @click="updateQuantity(item.id, -1)" class="qty-btn">−</button>
+                <button @click="updateQuantity(item.cartId, -1)" class="qty-btn">−</button>
                 <span class="qty">{{ item.quantity }}</span>
-                <button @click="updateQuantity(item.id, 1)" class="qty-btn">+</button>
+                <button @click="updateQuantity(item.cartId, 1)" class="qty-btn">+</button>
               </div>
+              <button @click="removeFromCart(item.cartId)" class="remove-item-btn">×</button>
             </div>
             <div class="cart-footer">
               <div class="cart-total">
