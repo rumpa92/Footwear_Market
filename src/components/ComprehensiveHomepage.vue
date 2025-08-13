@@ -932,7 +932,10 @@ export default {
       searchQuery: '',
       isListening: false,
       showProfileMenu: false,
-      
+      showVoiceModal: false,
+      showCartOverlay: false,
+      showWishlistOverlay: false,
+
       // Banner state
       currentBanner: 0,
       bannerInterval: null,
