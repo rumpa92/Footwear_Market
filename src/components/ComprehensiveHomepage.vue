@@ -661,27 +661,18 @@
               
               <!-- Trust Badges -->
               <div class="trust-block guarantees">
-                <h3>Our Guarantees</h3>
-                <div class="trust-badges">
-                  <div class="trust-badge">
-                    <div class="trust-icon">🚚</div>
-                    <h4>Free Delivery</h4>
-                    <p>On orders above $75</p>
-                  </div>
+                <div class="trust-badges-row">
                   <div class="trust-badge">
                     <div class="trust-icon">↩️</div>
-                    <h4>Easy Returns</h4>
-                    <p>30-day return policy</p>
+                    <h4>Free Returns</h4>
                   </div>
                   <div class="trust-badge">
                     <div class="trust-icon">🔒</div>
                     <h4>Secure Payments</h4>
-                    <p>SSL encrypted checkout</p>
                   </div>
                   <div class="trust-badge">
-                    <div class="trust-icon">✅</div>
-                    <h4>Authentic Products</h4>
-                    <p>100% original guarantee</p>
+                    <div class="trust-icon">🚚</div>
+                    <h4>Fast Delivery</h4>
                   </div>
                 </div>
               </div>
