@@ -3903,6 +3903,7 @@ export default {
   padding: 16px;
   background: #f8f9fa;
   border-radius: 12px;
+  position: relative;
 }
 
 .cart-item-image,
