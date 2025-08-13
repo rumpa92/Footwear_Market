@@ -1524,6 +1524,42 @@ export default {
     removeFromWishlist(itemId) {
       this.wishlistItems = this.wishlistItems.filter(item => item.id !== itemId)
       this.wishlistCount--
+    },
+
+    // Authentication methods
+    openAuthModal() {
+      this.showAuthModal = true
+    },
+
+    hideAuthModal() {
+      this.showAuthModal = false
+    },
+
+    handleSignInSuccess(userData) {
+      console.log('Sign in successful:', userData)
+      this.user = {
+        isLoggedIn: true,
+        name: userData.name,
+        email: userData.email,
+        avatar: null
+      }
+      this.showProfileMenu = false
+    },
+
+    handleSignUpSuccess(userData) {
+      console.log('Sign up successful:', userData)
+      this.user = {
+        isLoggedIn: true,
+        name: userData.firstName + ' ' + userData.lastName,
+        email: userData.email,
+        avatar: null
+      }
+      this.showProfileMenu = false
+    },
+
+    handleSocialLogin(provider) {
+      console.log('Social login with:', provider)
+      // Would integrate with actual social auth
     }
   },
 
