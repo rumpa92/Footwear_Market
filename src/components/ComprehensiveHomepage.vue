@@ -4054,29 +4054,54 @@ export default {
   .products-grid.enhanced {
     grid-template-columns: 1fr;
   }
-  
+
   .product-card,
   .product-card.enhanced {
     min-width: 100%;
   }
-  
+
   .section-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
   }
-  
+
   .floating-support {
     bottom: 20px;
     right: 20px;
   }
-  
+
   .support-chatbot {
     padding: 12px 16px;
   }
-  
+
   .support-text {
     display: none;
+  }
+
+  .voice-modal {
+    max-width: 90vw;
+    margin: 20px;
+  }
+
+  .cart-overlay,
+  .wishlist-overlay {
+    max-width: 90vw;
+    margin: 20px;
+  }
+
+  .trust-badges-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .countdown-timer {
+    font-size: 14px;
+  }
+
+  .time-unit {
+    font-size: 16px;
+    min-width: 25px;
   }
 }
 </style>
