@@ -272,7 +272,7 @@
           <div class="section-header">
             <div class="section-title-group">
               <h2 class="section-title">
-                <span class="title-icon">🎯</span>
+                <span class="title-icon">����</span>
                 Because You Liked...
               </h2>
               <p class="section-subtitle">Your Perfect Picks - AI-powered recommendations</p>
@@ -1302,31 +1302,47 @@ export default {
     },
     
     toggleVoiceSearch() {
+      this.showVoiceModal = true
+    },
+
+    startVoiceSearch() {
       if ('webkitSpeechRecognition' in window) {
         const recognition = new webkitSpeechRecognition()
         recognition.continuous = false
         recognition.interimResults = false
         recognition.lang = 'en-US'
-        
+
         recognition.onstart = () => {
           this.isListening = true
         }
-        
+
         recognition.onresult = (event) => {
           this.searchQuery = event.results[0][0].transcript
           this.isListening = false
+          this.showVoiceModal = false
+          this.showSuggestions = false
+          console.log('Voice search result:', this.searchQuery)
         }
-        
+
         recognition.onerror = () => {
           this.isListening = false
+          this.showVoiceModal = false
         }
-        
+
         recognition.onend = () => {
           this.isListening = false
         }
-        
+
         recognition.start()
+      } else {
+        alert('Voice search not supported in this browser')
+        this.showVoiceModal = false
       }
+    },
+
+    closeVoiceModal() {
+      this.showVoiceModal = false
+      this.isListening = false
     },
     
     // Header actions
