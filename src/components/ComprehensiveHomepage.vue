@@ -801,13 +801,13 @@
       </div>
     </footer>
     
-    <!-- Support Chatbot / Live Chat Floating Button -->
+    <!-- Floating Live Chat Button -->
     <div class="floating-support">
       <button class="support-chatbot" @click="openChatbot">
         <svg class="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
         </svg>
-        <span class="support-text">Need Help?</span>
+        <span class="support-text">Need help? Chat now.</span>
         <div class="support-badge">Live</div>
       </button>
     </div>
