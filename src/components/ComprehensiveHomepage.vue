@@ -1366,7 +1366,7 @@ export default {
     startBannerAutoSlide() {
       this.bannerInterval = setInterval(() => {
         this.nextBanner()
-      }, 5000)
+      }, 5000) // Auto-slide every 5 seconds as requested
     },
     
     nextBanner() {
