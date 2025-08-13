@@ -1,19 +1,7 @@
 <template>
   <div id="app">
-    <!-- Use the new comprehensive homepage -->
+    <!-- Use the new comprehensive homepage with working add to cart -->
     <ComprehensiveHomepage />
-
-    <!-- Keep existing cart sidebar and auth modal -->
-    <CartSidebar />
-
-    <!-- Authentication Modal -->
-    <AuthModal
-      :visible="authModalVisible"
-      @close="hideAuthModal"
-      @signin-success="handleSignInSuccess"
-      @signup-success="handleSignUpSuccess"
-      @social-login="handleSocialLogin"
-    />
   </div>
 </template>
 
