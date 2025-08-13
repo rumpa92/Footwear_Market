@@ -1498,6 +1498,38 @@ export default {
     // Support functionality
     openChatbot() {
       console.log('Open support chatbot')
+    },
+
+    // Cart functionality
+    updateQuantity(itemId, change) {
+      const item = this.cartItems.find(item => item.id === itemId)
+      if (item) {
+        item.quantity += change
+        if (item.quantity <= 0) {
+          this.cartItems = this.cartItems.filter(item => item.id !== itemId)
+          this.cartCount--
+        }
+      }
+    },
+
+    moveToCart(item) {
+      this.cartItems.push({
+        ...item,
+        quantity: 1
+      })
+      this.cartCount++
+      this.removeFromWishlist(item.id)
+    },
+
+    removeFromWishlist(itemId) {
+      this.wishlistItems = this.wishlistItems.filter(item => item.id !== itemId)
+      this.wishlistCount--
+    }
+  },
+
+  computed: {
+    cartTotal() {
+      return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2)
     }
   }
 }
