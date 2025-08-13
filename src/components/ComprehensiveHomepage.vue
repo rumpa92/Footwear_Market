@@ -854,7 +854,7 @@
       <div class="modal-content cart-overlay" @click.stop>
         <div class="cart-header">
           <h3>Shopping Cart ({{ cartCount }})</h3>
-          <button @click="closeCartOverlay" class="close-btn">✕</button>
+          <button @click="closeCartOverlay" class="close-btn">��</button>
         </div>
         <div class="cart-content">
           <div v-if="cartCount === 0" class="empty-cart">
@@ -1228,6 +1228,10 @@ export default {
 
     cartCount() {
       return this.cartItemCount
+    },
+
+    cartItems() {
+      return this.cart
     }
   },
   mounted() {
