@@ -884,33 +884,33 @@ export default {
       heroBanners: [
         {
           id: 1,
-          title: 'Winter Collection 2024',
-          subtitle: 'Stay warm and stylish with our latest winter footwear',
-          badge: 'New Collection',
-          ctaText: 'Shop Winter Collection',
-          secondaryCTA: 'Watch Lookbook',
+          title: 'Sneaker Drops',
+          subtitle: 'Get the latest releases before they sell out',
+          badge: 'New Drop',
+          ctaText: 'Shop Now',
+          secondaryCTA: 'Explore Collection',
           backgroundImage: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=1200&h=600&fit=crop',
-          features: ['Waterproof', 'Insulated', 'Non-slip sole']
+          features: ['Limited Edition', 'Exclusive Release', 'Premium Quality']
         },
         {
           id: 2,
-          title: 'Up to 50% Off Sale',
-          subtitle: 'Limited time offer on premium footwear from top brands',
-          badge: 'Sale',
-          ctaText: 'Shop Sale',
-          secondaryCTA: 'View All Deals',
+          title: 'Holiday Sales',
+          subtitle: 'Massive savings on your favorite brands this season',
+          badge: 'Holiday Sale',
+          ctaText: 'Shop Now',
+          secondaryCTA: 'Explore Collection',
           backgroundImage: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=1200&h=600&fit=crop',
-          features: ['Free shipping', 'Easy returns', 'Price guarantee']
+          features: ['Up to 70% Off', 'Free Shipping', 'Extended Returns']
         },
         {
           id: 3,
-          title: 'Exclusive Jordan Drop',
-          subtitle: 'Get the latest Jordan releases before anyone else',
-          badge: 'Exclusive',
-          ctaText: 'Shop Jordan',
-          secondaryCTA: 'Join Waitlist',
+          title: 'Back-to-School Deals',
+          subtitle: 'Fresh styles for the new school year',
+          badge: 'Back to School',
+          ctaText: 'Shop Now',
+          secondaryCTA: 'Explore Collection',
           backgroundImage: 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=1200&h=600&fit=crop',
-          features: ['Limited edition', 'Early access', 'Authenticated']
+          features: ['Student Discounts', 'Durable Styles', 'Comfort First']
         }
       ],
       
@@ -929,7 +929,7 @@ export default {
         { id: 'price', label: 'Under ₹999', icon: '💰', active: false },
         { id: 'size', label: 'Size Guide', icon: '📏', active: false },
         { id: 'new', label: 'New Arrivals', icon: '✨', badge: 'NEW', active: false },
-        { id: 'sale', label: 'On Sale', icon: '🏷���', badge: '50%', active: false },
+        { id: 'sale', label: 'On Sale', icon: '🏷️', badge: '50%', active: false },
         { id: 'premium', label: 'Premium Brands', icon: '👑', active: false }
       ],
       
