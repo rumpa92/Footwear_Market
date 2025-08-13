@@ -957,6 +957,44 @@ export default {
       
       cartCount: 3,
       wishlistCount: 7,
+
+      // Cart items
+      cartItems: [
+        {
+          id: 1,
+          name: 'Air Max 270 React',
+          brand: 'Nike',
+          price: 149.99,
+          quantity: 1,
+          image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100&h=100&fit=crop'
+        },
+        {
+          id: 2,
+          name: 'Ultraboost 23',
+          brand: 'Adidas',
+          price: 189.99,
+          quantity: 2,
+          image: 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=100&h=100&fit=crop'
+        }
+      ],
+
+      // Wishlist items
+      wishlistItems: [
+        {
+          id: 3,
+          name: 'Chuck 70 High Top',
+          brand: 'Converse',
+          price: 89.99,
+          image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=100&h=100&fit=crop'
+        },
+        {
+          id: 4,
+          name: 'Old Skool Platform',
+          brand: 'Vans',
+          price: 79.99,
+          image: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=100&h=100&fit=crop'
+        }
+      ],
       
       // Countdown timer state
       countdown: {
