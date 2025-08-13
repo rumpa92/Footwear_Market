@@ -934,6 +934,7 @@ export default {
       showVoiceModal: false,
       showCartOverlay: false,
       showWishlistOverlay: false,
+      showAuthModal: false,
 
       // Banner state
       currentBanner: 0,
