@@ -273,9 +273,9 @@
             <div class="section-title-group">
               <h2 class="section-title">
                 <span class="title-icon">🎯</span>
-                Just for You
+                Because You Liked...
               </h2>
-              <p class="section-subtitle">AI-powered recommendations based on your preferences</p>
+              <p class="section-subtitle">Your Perfect Picks - AI-powered recommendations</p>
             </div>
             <button class="view-all-btn">View All</button>
           </div>
