@@ -526,10 +526,10 @@
             <div class="feature-promo ar-tryson">
               <div class="feature-content">
                 <div class="feature-icon">📱</div>
-                <h3>AR Shoe Try-On</h3>
-                <p>See how shoes look on you before buying</p>
-                <span class="feature-badge">Try Before You Buy</span>
-                <button class="feature-cta">Try AR Now</button>
+                <h3>Try Before You Buy</h3>
+                <p>Use AR to see how it looks on your feet</p>
+                <span class="feature-badge">AR Technology</span>
+                <button class="feature-cta">Launch AR</button>
               </div>
               <div class="feature-visual">
                 <div class="ar-demo">
