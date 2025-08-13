@@ -1446,8 +1446,106 @@ export default {
     },
     
     addToCart(product) {
-      console.log('Add to cart:', product.name)
-      this.cartCount++
+      // Check if product has variants that need selection
+      const hasVariants = product.colors && product.colors.length > 1 || product.sizeRange
+
+      if (hasVariants && !product.selectedColor && !product.selectedSize) {
+        // For products with variants, use default selections or show variant modal
+        const defaultColor = product.colors ? product.colors[0] : null
+        const defaultSize = this.getDefaultSize(product)
+
+        this.$store.dispatch('addToCart', {
+          product: product,
+          color: defaultColor,
+          size: defaultSize
+        })
+      } else {
+        // For simple products or products with selections already made
+        this.$store.dispatch('addToCart', {
+          product: product,
+          color: product.selectedColor || (product.colors && product.colors[0]) || null,
+          size: product.selectedSize || this.getDefaultSize(product)
+        })
+      }
+
+      // Show success notification
+      this.showAddToCartNotification(product)
+
+      console.log('Added to cart:', product.name)
+    },
+
+    getDefaultSize(product) {
+      if (product.sizeRange) {
+        // Extract middle size from range like "6-12"
+        const [min, max] = product.sizeRange.split('-').map(Number)
+        return Math.ceil((min + max) / 2)
+      }
+      if (product.sizes && product.sizes.length > 0) {
+        // Get middle size from available sizes
+        return product.sizes[Math.floor(product.sizes.length / 2)]
+      }
+      return 9 // Default size
+    },
+
+    showAddToCartNotification(product) {
+      // Create and show a temporary notification
+      const notification = document.createElement('div')
+      notification.innerHTML = `
+        <div style="
+          position: fixed;
+          top: 100px;
+          right: 20px;
+          background: linear-gradient(135deg, #28a745, #20c997);
+          color: white;
+          padding: 16px 24px;
+          border-radius: 12px;
+          box-shadow: 0 8px 32px rgba(40, 167, 69, 0.3);
+          z-index: 9999;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          font-weight: 600;
+          font-size: 14px;
+          animation: slideInRight 0.3s ease-out;
+        ">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20,6 9,17 4,12"></polyline>
+          </svg>
+          <div>
+            <div style="font-weight: 700;">${product.name}</div>
+            <div style="opacity: 0.9; font-size: 12px;">Added to cart successfully!</div>
+          </div>
+        </div>
+      `
+
+      // Add CSS animation
+      const style = document.createElement('style')
+      style.textContent = `
+        @keyframes slideInRight {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOutRight {
+          from { transform: translateX(0); opacity: 1; }
+          to { transform: translateX(100%); opacity: 0; }
+        }
+      `
+      document.head.appendChild(style)
+
+      document.body.appendChild(notification)
+
+      // Remove notification after 3 seconds with slide out animation
+      setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.3s ease-in'
+        setTimeout(() => {
+          if (document.body.contains(notification)) {
+            document.body.removeChild(notification)
+          }
+          if (document.head.contains(style)) {
+            document.head.removeChild(style)
+          }
+        }, 300)
+      }, 3000)
     },
     
     toggleWishlist(productId) {
