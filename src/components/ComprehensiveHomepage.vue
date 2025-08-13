@@ -1,37 +1,22 @@
 <template>
   <div class="comprehensive-homepage">
     
-    <!-- Sticky Header -->
-    <header class="sticky-header" :class="{ 'header-scrolled': isScrolled }">
+    <!-- Enhanced Sticky Header -->
+    <header class="main-header" :class="{ 'header-scrolled': isScrolled }">
       <div class="header-container">
         
-        <!-- Location Section -->
-        <div class="location-section">
-          <button class="location-btn" @click="showLocationModal = true">
-            <svg class="location-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            <div class="location-info">
-              <span class="location-text">{{ userLocation || 'Select Location' }}</span>
-              <span class="delivery-info">Free delivery available</span>
-            </div>
-          </button>
+        <!-- Logo & Brand Recognition -->
+        <div class="brand-section">
+          <div class="main-logo">
+            <span class="logo-icon">👟</span>
+            <span class="brand-name">SOLE HUB</span>
+            <span class="brand-tagline">Premium Footwear</span>
+          </div>
         </div>
         
-        <!-- Logo Section -->
-        <div class="logo-section">
-          <router-link to="/" class="logo-link">
-            <div class="logo">
-              <span class="logo-icon">👟</span>
-              <span class="logo-text">SOLE HUB</span>
-            </div>
-          </router-link>
-        </div>
-        
-        <!-- Search Section -->
+        <!-- Enhanced Search with Auto-Suggestions & Voice -->
         <div class="search-section">
-          <div class="search-container" :class="{ 'search-active': isSearchActive }">
+          <div class="search-container" :class="{ 'search-focused': isSearchActive }">
             <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21-4.35-4.35"></path>
@@ -43,13 +28,14 @@
               @focus="handleSearchFocus"
               @blur="handleSearchBlur"
               @input="handleSearchInput"
-              placeholder="Search shoes, brands, styles..."
+              placeholder="Search by brand, style, or size..."
               class="search-input"
             />
             
+            <!-- Voice Shopping Mic Icon -->
             <button 
-              class="mic-btn"
-              :class="{ 'mic-active': isListening }"
+              class="voice-search-btn"
+              :class="{ 'listening': isListening }"
               @click="toggleVoiceSearch"
               title="Voice search"
             >
@@ -61,58 +47,46 @@
               </svg>
             </button>
             
-            <!-- Search Suggestions -->
+            <!-- Auto-Suggestions Dropdown -->
             <div v-if="showSuggestions" class="search-suggestions">
               <div class="suggestions-header">
                 <h4>Popular Searches</h4>
-                <button @click="clearSearch" class="clear-btn">Clear</button>
+                <button @click="clearSearch" class="clear-search-btn">Clear</button>
               </div>
               
               <div class="suggestions-grid">
                 <div class="suggestion-category">
-                  <h5>Trending</h5>
+                  <h5>🔥 Trending</h5>
                   <div
                     v-for="trend in trendingSuggestions"
                     :key="trend"
                     class="suggestion-item"
                     @click="selectSuggestion(trend)"
                   >
-                    <svg class="suggestion-icon trending" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                      <polyline points="17 6 23 6 23 12"></polyline>
-                    </svg>
                     {{ trend }}
                   </div>
                 </div>
                 
                 <div class="suggestion-category">
-                  <h5>Brands</h5>
+                  <h5>🏷️ Brands</h5>
                   <div
                     v-for="brand in brandSuggestions"
                     :key="brand"
                     class="suggestion-item"
                     @click="selectSuggestion(brand)"
                   >
-                    <svg class="suggestion-icon brand" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-                      <line x1="7" y1="7" x2="7.01" y2="7"></line>
-                    </svg>
                     {{ brand }}
                   </div>
                 </div>
                 
                 <div class="suggestion-category">
-                  <h5>Categories</h5>
+                  <h5>👟 Categories</h5>
                   <div
                     v-for="category in categorySuggestions"
                     :key="category"
                     class="suggestion-item"
                     @click="selectSuggestion(category)"
                   >
-                    <svg class="suggestion-icon category" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                      <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
                     {{ category }}
                   </div>
                 </div>
@@ -121,18 +95,16 @@
           </div>
         </div>
         
-        <!-- Right Icons -->
+        <!-- Cart & Wishlist Icons - Persistent Access -->
         <div class="header-actions">
-          <!-- Wishlist -->
           <button class="action-btn wishlist-btn" @click="openWishlist">
             <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
             </svg>
             <span class="action-label">Wishlist</span>
-            <span v-if="wishlistCount > 0" class="badge">{{ wishlistCount }}</span>
+            <span v-if="wishlistCount > 0" class="action-badge">{{ wishlistCount }}</span>
           </button>
           
-          <!-- Cart -->
           <button class="action-btn cart-btn" @click="openCart">
             <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <circle cx="9" cy="21" r="1"></circle>
@@ -140,10 +112,10 @@
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
             </svg>
             <span class="action-label">Cart</span>
-            <span v-if="cartCount > 0" class="badge cart-badge">{{ cartCount }}</span>
+            <span v-if="cartCount > 0" class="action-badge cart-badge">{{ cartCount }}</span>
           </button>
           
-          <!-- Profile -->
+          <!-- User Profile -->
           <div class="profile-section">
             <button class="action-btn profile-btn" @click="toggleProfileMenu">
               <div class="profile-avatar">
@@ -153,7 +125,7 @@
                   <circle cx="12" cy="7" r="4"></circle>
                 </svg>
               </div>
-              <span class="action-label">{{ user.isLoggedIn ? user.name : 'Account' }}</span>
+              <span class="action-label">{{ user.isLoggedIn ? user.name.split(' ')[0] : 'Account' }}</span>
             </button>
             
             <!-- Profile Dropdown -->
@@ -163,57 +135,15 @@
                   <h4>{{ user.name }}</h4>
                   <p>{{ user.email }}</p>
                 </div>
-                <div class="profile-stats">
-                  <div class="stat">
-                    <span class="stat-number">{{ user.orders || 0 }}</span>
-                    <span class="stat-label">Orders</span>
-                  </div>
-                  <div class="stat">
-                    <span class="stat-number">{{ user.points || 0 }}</span>
-                    <span class="stat-label">Points</span>
-                  </div>
-                </div>
               </div>
               
               <div class="profile-menu">
-                <a v-if="user.isLoggedIn" href="#" class="menu-item">
-                  <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                  </svg>
-                  My Profile
-                </a>
-                <a v-if="user.isLoggedIn" href="#" class="menu-item">
-                  <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                  </svg>
-                  My Orders
-                </a>
-                <a href="#" class="menu-item">
-                  <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                  </svg>
-                  Settings
-                </a>
+                <a v-if="user.isLoggedIn" href="#" class="menu-item">My Profile</a>
+                <a v-if="user.isLoggedIn" href="#" class="menu-item">My Orders</a>
+                <a href="#" class="menu-item">Settings</a>
                 <div class="menu-divider"></div>
-                <button v-if="user.isLoggedIn" @click="logout" class="menu-item logout">
-                  <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                    <polyline points="16,17 21,12 16,7"></polyline>
-                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                  </svg>
-                  Sign Out
-                </button>
-                <button v-else @click="showAuthModal = true" class="menu-item">
-                  <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                    <polyline points="10,17 15,12 10,7"></polyline>
-                    <line x1="15" y1="12" x2="3" y2="12"></line>
-                  </svg>
-                  Sign In
-                </button>
+                <button v-if="user.isLoggedIn" @click="logout" class="menu-item logout">Sign Out</button>
+                <button v-else @click="showAuthModal = true" class="menu-item">Sign In</button>
               </div>
             </div>
           </div>
@@ -221,9 +151,9 @@
       </div>
     </header>
     
-    <!-- Hero / Campaign Banners -->
+    <!-- Hero / Banner Section - Seasonal Campaign Banners -->
     <section class="hero-banners">
-      <div class="banner-slider" ref="bannerSlider">
+      <div class="banner-slider">
         <div class="banner-container" :style="{ transform: `translateX(-${currentBanner * 100}%)` }">
           <div
             v-for="(banner, index) in heroBanners"
@@ -238,14 +168,14 @@
             
             <div class="banner-content">
               <div class="banner-text">
-                <span v-if="banner.badge" class="banner-badge">{{ banner.badge }}</span>
+                <span class="banner-badge">{{ banner.badge }}</span>
                 <h1 class="banner-title">{{ banner.title }}</h1>
                 <p class="banner-subtitle">{{ banner.subtitle }}</p>
                 <div class="banner-features">
                   <span
                     v-for="feature in banner.features"
                     :key="feature"
-                    class="banner-feature"
+                    class="feature-tag"
                   >
                     {{ feature }}
                   </span>
@@ -255,7 +185,7 @@
               <div class="banner-actions">
                 <button class="cta-primary" @click="handleBannerCTA(banner)">
                   {{ banner.ctaText }}
-                  <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <svg class="cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12,5 19,12 12,19"></polyline>
                   </svg>
@@ -295,85 +225,78 @@
       </div>
     </section>
     
-    <!-- Category Navigation Bar -->
-    <section class="category-navigation" :class="{ 'nav-sticky': isCategorySticky }">
-      <div class="category-container">
-        <div class="category-scroll" ref="categoryScroll">
+    <!-- Quick Category Tiles - Horizontal Layout -->
+    <section class="quick-categories">
+      <div class="categories-container">
+        <h3 class="section-title">Shop by Category</h3>
+        <div class="category-grid">
           <button
-            v-for="category in categories"
+            v-for="category in quickCategories"
             :key="category.id"
-            :class="['category-chip', { active: activeCategory === category.id }]"
+            :class="['category-tile', { active: activeCategory === category.id }]"
             @click="selectCategory(category)"
           >
-            <span class="category-icon">{{ category.icon }}</span>
+            <div class="category-icon">{{ category.icon }}</div>
             <span class="category-name">{{ category.name }}</span>
-            <span v-if="category.count" class="category-count">{{ category.count }}</span>
-          </button>
-        </div>
-        
-        <div class="category-arrows">
-          <button class="category-arrow left" @click="scrollCategories('left')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <polyline points="15,18 9,12 15,6"></polyline>
-            </svg>
-          </button>
-          <button class="category-arrow right" @click="scrollCategories('right')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <polyline points="9,18 15,12 9,6"></polyline>
-            </svg>
+            <span class="category-count">{{ category.count }}+ items</span>
           </button>
         </div>
       </div>
     </section>
     
-    <!-- Quick Shortcuts / Filters Row -->
-    <section class="quick-shortcuts">
+    <!-- Gender & Age Filter Shortcuts -->
+    <section class="filter-shortcuts">
       <div class="shortcuts-container">
-        <h3 class="shortcuts-title">Quick Access</h3>
-        <div class="shortcuts-grid">
+        <h4 class="shortcuts-title">Quick Filters</h4>
+        <div class="filter-chips">
           <button
-            v-for="shortcut in quickShortcuts"
-            :key="shortcut.id"
-            :class="['shortcut-chip', { active: shortcut.active }]"
-            @click="handleShortcut(shortcut)"
+            v-for="filter in quickFilters"
+            :key="filter.id"
+            :class="['filter-chip', { active: filter.active }]"
+            @click="toggleFilter(filter)"
           >
-            <div class="shortcut-icon">{{ shortcut.icon }}</div>
-            <span class="shortcut-label">{{ shortcut.label }}</span>
-            <span v-if="shortcut.badge" class="shortcut-badge">{{ shortcut.badge }}</span>
+            <span class="filter-icon">{{ filter.icon }}</span>
+            <span class="filter-label">{{ filter.label }}</span>
+            <span v-if="filter.badge" class="filter-badge">{{ filter.badge }}</span>
           </button>
         </div>
       </div>
     </section>
     
-    <!-- Personalized & Curated Sections -->
+    <!-- Main Content Sections -->
     <main class="main-content">
       <div class="content-container">
         
-        <!-- Recommended for You -->
-        <section v-if="user.isLoggedIn" class="content-section recommended-section">
+        <!-- AI Smart Recommendations Section -->
+        <section v-if="user.isLoggedIn" class="recommendations-section">
           <div class="section-header">
             <div class="section-title-group">
               <h2 class="section-title">
                 <span class="title-icon">🎯</span>
-                Recommended for You
+                Just for You
               </h2>
-              <p class="section-subtitle">Curated based on your preferences and browsing history</p>
+              <p class="section-subtitle">AI-powered recommendations based on your preferences</p>
             </div>
-            <button class="view-all-btn">
-              View All
-              <svg class="view-all-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12,5 19,12 12,19"></polyline>
-              </svg>
+            <button class="view-all-btn">View All</button>
+          </div>
+          
+          <div class="recommendations-tabs">
+            <button 
+              v-for="tab in recommendationTabs" 
+              :key="tab.id"
+              :class="['rec-tab', { active: activeRecTab === tab.id }]"
+              @click="activeRecTab = tab.id"
+            >
+              {{ tab.name }}
             </button>
           </div>
           
-          <div class="products-carousel" ref="recommendedCarousel">
+          <div class="products-carousel">
             <div class="products-scroll">
               <div
-                v-for="product in recommendedProducts"
+                v-for="product in getRecommendationProducts()"
                 :key="product.id"
-                class="product-card"
+                class="product-card enhanced"
                 @click="viewProduct(product)"
               >
                 <div class="product-image-container">
@@ -382,6 +305,7 @@
                     <span v-if="product.isNew" class="badge new">NEW</span>
                     <span v-if="product.discount" class="badge sale">{{ product.discount }}% OFF</span>
                     <span v-if="product.exclusive" class="badge exclusive">EXCLUSIVE</span>
+                    <span v-if="product.aiMatch" class="badge ai-match">AI MATCH</span>
                   </div>
                   <div class="product-actions">
                     <button 
@@ -411,6 +335,13 @@
                     </div>
                     <span class="rating-count">({{ product.reviews }})</span>
                   </div>
+                  <div class="product-colors">
+                    <span v-for="color in product.colors" :key="color" class="color-dot" :style="{ backgroundColor: color }"></span>
+                  </div>
+                  <div class="product-size-preview">
+                    <span class="size-label">Available sizes:</span>
+                    <span class="size-range">{{ product.sizeRange }}</span>
+                  </div>
                   <div class="product-price">
                     <span class="current-price">${{ product.price }}</span>
                     <span v-if="product.originalPrice" class="original-price">${{ product.originalPrice }}</span>
@@ -429,184 +360,331 @@
           </div>
         </section>
         
-        <!-- New Arrivals -->
-        <section class="content-section new-arrivals-section">
+        <!-- Recently Viewed -->
+        <section v-if="recentlyViewed.length > 0" class="recently-viewed-section">
           <div class="section-header">
-            <div class="section-title-group">
-              <h2 class="section-title">
-                <span class="title-icon">✨</span>
-                New Arrivals
-              </h2>
-              <p class="section-subtitle">Fresh styles just landed</p>
-            </div>
-            <button class="view-all-btn">
-              View All
-              <svg class="view-all-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12,5 19,12 12,19"></polyline>
-              </svg>
-            </button>
+            <h2 class="section-title">
+              <span class="title-icon">👁️</span>
+              Recently Viewed
+            </h2>
+            <button class="clear-history-btn" @click="clearRecentlyViewed">Clear History</button>
           </div>
           
-          <div class="products-carousel">
+          <div class="products-carousel compact">
             <div class="products-scroll">
               <div
-                v-for="product in newArrivals"
+                v-for="product in recentlyViewed"
                 :key="product.id"
-                class="product-card"
+                class="product-card compact"
                 @click="viewProduct(product)"
               >
                 <div class="product-image-container">
                   <img :src="product.image" :alt="product.name" class="product-image" />
-                  <div class="product-badges">
-                    <span class="badge new">NEW</span>
-                    <span v-if="product.discount" class="badge sale">{{ product.discount }}% OFF</span>
-                  </div>
-                  <div class="product-actions">
-                    <button 
-                      class="product-action wishlist"
-                      :class="{ active: isInWishlist(product.id) }"
-                      @click.stop="toggleWishlist(product.id)"
-                    >
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                      </svg>
-                    </button>
-                    <button class="product-action quick-view" @click.stop="quickView(product)">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                      </svg>
-                    </button>
-                  </div>
                 </div>
-                
                 <div class="product-info">
                   <div class="product-brand">{{ product.brand }}</div>
-                  <h3 class="product-name">{{ product.name }}</h3>
-                  <div class="product-rating">
-                    <div class="stars">
-                      <span v-for="star in 5" :key="star" class="star" :class="{ filled: star <= product.rating }">⭐</span>
-                    </div>
-                    <span class="rating-count">({{ product.reviews }})</span>
-                  </div>
+                  <h4 class="product-name">{{ product.name }}</h4>
                   <div class="product-price">
                     <span class="current-price">${{ product.price }}</span>
-                    <span v-if="product.originalPrice" class="original-price">${{ product.originalPrice }}</span>
                   </div>
-                  <button class="add-to-cart-btn" @click.stop="addToCart(product)">
-                    <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <circle cx="9" cy="21" r="1"></circle>
-                      <circle cx="20" cy="21" r="1"></circle>
-                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                    </svg>
-                    Add to Cart
-                  </button>
                 </div>
               </div>
             </div>
           </div>
         </section>
         
-        <!-- Trending Section -->
-        <section class="content-section trending-section">
-          <div class="section-header">
-            <div class="section-title-group">
-              <h2 class="section-title">
-                <span class="title-icon">🔥</span>
-                Trending Now
-              </h2>
-              <p class="section-subtitle">What everyone's talking about</p>
-            </div>
-            <button class="view-all-btn">
-              View All
-              <svg class="view-all-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12,5 19,12 12,19"></polyline>
-              </svg>
+        <!-- New Arrivals & Best Sellers Section -->
+        <section class="arrivals-bestsellers-section">
+          <div class="section-tabs">
+            <button 
+              v-for="tab in arrivalsTabs" 
+              :key="tab.id"
+              :class="['section-tab', { active: activeArrivalsTab === tab.id }]"
+              @click="activeArrivalsTab = tab.id"
+            >
+              <span class="tab-icon">{{ tab.icon }}</span>
+              <span class="tab-name">{{ tab.name }}</span>
+              <span class="tab-count">{{ tab.count }}</span>
             </button>
           </div>
           
-          <div class="trending-grid">
+          <div class="products-grid enhanced">
             <div
-              v-for="(product, index) in trendingProducts"
+              v-for="product in getArrivalsProducts()"
               :key="product.id"
-              class="trending-card"
+              class="product-card enhanced"
               @click="viewProduct(product)"
             >
-              <div class="trending-rank">
-                <span class="rank-number">#{{ index + 1 }}</span>
-                <span class="trend-indicator up">↗ +{{ product.trendGrowth }}%</span>
-              </div>
-              
               <div class="product-image-container">
                 <img :src="product.image" :alt="product.name" class="product-image" />
-                <div class="trending-overlay">
-                  <div class="trend-stats">
-                    <div class="stat">
-                      <span class="stat-value">{{ product.views }}</span>
-                      <span class="stat-label">Views</span>
-                    </div>
-                    <div class="stat">
-                      <span class="stat-value">{{ product.sales }}</span>
-                      <span class="stat-label">Sold</span>
-                    </div>
-                  </div>
+                <div class="product-badges">
+                  <span v-if="product.isNew" class="badge new">NEW</span>
+                  <span v-if="product.isBestseller" class="badge bestseller">BESTSELLER</span>
+                  <span v-if="product.discount" class="badge sale">{{ product.discount }}% OFF</span>
+                </div>
+                <div class="product-actions">
+                  <button 
+                    class="product-action wishlist"
+                    :class="{ active: isInWishlist(product.id) }"
+                    @click.stop="toggleWishlist(product.id)"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                  </button>
+                  <button class="product-action quick-view" @click.stop="quickView(product)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  </button>
                 </div>
               </div>
               
               <div class="product-info">
                 <div class="product-brand">{{ product.brand }}</div>
                 <h3 class="product-name">{{ product.name }}</h3>
+                <div class="product-rating">
+                  <div class="stars">
+                    <span v-for="star in 5" :key="star" class="star" :class="{ filled: star <= product.rating }">⭐</span>
+                  </div>
+                  <span class="rating-count">({{ product.reviews }})</span>
+                </div>
+                <div class="product-colors">
+                  <span v-for="color in product.colors" :key="color" class="color-dot" :style="{ backgroundColor: color }"></span>
+                </div>
                 <div class="product-price">
                   <span class="current-price">${{ product.price }}</span>
+                  <span v-if="product.originalPrice" class="original-price">${{ product.originalPrice }}</span>
+                </div>
+                <button class="add-to-cart-btn" @click.stop="addToCart(product)">
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Deals & Limited-Time Offers -->
+        <section class="deals-section">
+          <div class="section-header special">
+            <div class="section-title-group">
+              <h2 class="section-title deals">
+                <span class="title-icon">🔥</span>
+                Flash Deals & Limited Offers
+              </h2>
+              <p class="section-subtitle">Limited time offers - Don't miss out!</p>
+            </div>
+            <div class="deals-timer">
+              <span class="timer-label">Ends in:</span>
+              <div class="countdown-timer">
+                <div class="time-unit">
+                  <span class="time-value">{{ countdown.hours }}</span>
+                  <span class="time-label">Hours</span>
+                </div>
+                <div class="time-unit">
+                  <span class="time-value">{{ countdown.minutes }}</span>
+                  <span class="time-label">Min</span>
+                </div>
+                <div class="time-unit">
+                  <span class="time-value">{{ countdown.seconds }}</span>
+                  <span class="time-label">Sec</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="deals-grid">
+            <div class="deal-highlight">
+              <div class="deal-banner">
+                <h3>Under ₹999</h3>
+                <p>Handpicked styles under budget</p>
+                <button class="deal-cta">Shop Under ₹999</button>
+              </div>
+            </div>
+            
+            <div class="deal-highlight">
+              <div class="deal-banner sale">
+                <h3>50% Off Sale</h3>
+                <p>Premium brands at half price</p>
+                <button class="deal-cta">Shop 50% Off</button>
+              </div>
+            </div>
+            
+            <div class="deal-highlight">
+              <div class="deal-banner exclusive">
+                <h3>Buy 2 Get 1 Free</h3>
+                <p>Mix and match your favorites</p>
+                <button class="deal-cta">Shop Combo Deals</button>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Interactive Feature Promo - AR Try-On -->
+        <section class="interactive-features">
+          <div class="feature-promos">
+            <div class="feature-promo ar-tryson">
+              <div class="feature-content">
+                <div class="feature-icon">📱</div>
+                <h3>AR Shoe Try-On</h3>
+                <p>See how shoes look on you before buying</p>
+                <span class="feature-badge">Try Before You Buy</span>
+                <button class="feature-cta">Try AR Now</button>
+              </div>
+              <div class="feature-visual">
+                <div class="ar-demo">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div class="ar-overlay">AR VIEW</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="feature-promo pickup-option">
+              <div class="feature-content">
+                <div class="feature-icon">🏪</div>
+                <h3>Order Online, Collect In-Store</h3>
+                <p>Free pickup from 500+ locations nationwide</p>
+                <span class="feature-badge">Free & Fast</span>
+                <button class="feature-cta">Find Stores</button>
+              </div>
+              <div class="feature-visual">
+                <div class="store-locator">
+                  <div class="map-mockup">
+                    <div class="store-pins">
+                      <div class="store-pin">📍</div>
+                      <div class="store-pin">📍</div>
+                      <div class="store-pin">📍</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
         
-        <!-- Brand Spotlights -->
-        <section class="content-section brand-spotlight-section">
+        <!-- Brand Spotlight - Top Brands Carousel -->
+        <section class="brand-spotlight-section">
           <div class="section-header">
             <div class="section-title-group">
               <h2 class="section-title">
                 <span class="title-icon">🏆</span>
-                Brand Spotlights
+                Brand Spotlight
               </h2>
-              <p class="section-subtitle">Featured collections from top brands</p>
+              <p class="section-subtitle">Explore collections from world's top footwear brands</p>
             </div>
           </div>
           
-          <div class="brand-spotlight-grid">
-            <div
-              v-for="brand in brandSpotlights"
-              :key="brand.id"
-              class="brand-spotlight-card"
-              @click="viewBrand(brand)"
-            >
-              <div class="brand-image">
-                <img :src="brand.image" :alt="brand.name" class="brand-bg" />
-                <div class="brand-overlay"></div>
+          <div class="brands-carousel">
+            <div class="brands-scroll">
+              <div
+                v-for="brand in brandSpotlights"
+                :key="brand.id"
+                class="brand-spotlight-card"
+                @click="viewBrand(brand)"
+              >
+                <div class="brand-image">
+                  <img :src="brand.image" :alt="brand.name" class="brand-bg" />
+                  <div class="brand-overlay"></div>
+                </div>
+                
+                <div class="brand-content">
+                  <div class="brand-logo">
+                    <img :src="brand.logo" :alt="brand.name" />
+                  </div>
+                  <h3 class="brand-name">{{ brand.name }}</h3>
+                  <p class="brand-description">{{ brand.description }}</p>
+                  <div class="brand-stats">
+                    <span class="stat">{{ brand.productCount }}+ Products</span>
+                    <span class="stat">From ${{ brand.startingPrice }}</span>
+                  </div>
+                  <button class="brand-cta">
+                    Explore {{ brand.name }}
+                    <svg class="cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12,5 19,12 12,19"></polyline>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Customer Trust Elements -->
+        <section class="trust-elements">
+          <div class="trust-container">
+            <h2 class="section-title">
+              <span class="title-icon">⭐</span>
+              What Our Customers Say
+            </h2>
+            
+            <div class="trust-grid">
+              <!-- Customer Reviews Snippet -->
+              <div class="trust-block reviews">
+                <div class="reviews-header">
+                  <h3>Customer Reviews</h3>
+                  <div class="overall-rating">
+                    <div class="rating-stars">
+                      <span class="star filled">⭐</span>
+                      <span class="star filled">⭐</span>
+                      <span class="star filled">⭐</span>
+                      <span class="star filled">⭐</span>
+                      <span class="star filled">⭐</span>
+                    </div>
+                    <span class="rating-value">4.8/5</span>
+                    <span class="review-count">(12,847 reviews)</span>
+                  </div>
+                </div>
+                
+                <div class="review-highlights">
+                  <div v-for="review in customerReviews" :key="review.id" class="review-card">
+                    <div class="review-header">
+                      <img :src="review.avatar" :alt="review.name" class="reviewer-avatar" />
+                      <div class="reviewer-info">
+                        <h4 class="reviewer-name">{{ review.name }}</h4>
+                        <div class="review-rating">
+                          <span v-for="star in review.rating" :key="star" class="star filled">⭐</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="review-text">"{{ review.text }}"</p>
+                    <div class="review-product">
+                      <img :src="review.productImage" :alt="review.productName" class="review-product-img" />
+                      <span class="review-product-name">{{ review.productName }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
               
-              <div class="brand-content">
-                <div class="brand-logo">
-                  <img :src="brand.logo" :alt="brand.name" />
+              <!-- Trust Badges -->
+              <div class="trust-block guarantees">
+                <h3>Our Guarantees</h3>
+                <div class="trust-badges">
+                  <div class="trust-badge">
+                    <div class="trust-icon">🚚</div>
+                    <h4>Free Delivery</h4>
+                    <p>On orders above $75</p>
+                  </div>
+                  <div class="trust-badge">
+                    <div class="trust-icon">↩️</div>
+                    <h4>Easy Returns</h4>
+                    <p>30-day return policy</p>
+                  </div>
+                  <div class="trust-badge">
+                    <div class="trust-icon">🔒</div>
+                    <h4>Secure Payments</h4>
+                    <p>SSL encrypted checkout</p>
+                  </div>
+                  <div class="trust-badge">
+                    <div class="trust-icon">✅</div>
+                    <h4>Authentic Products</h4>
+                    <p>100% original guarantee</p>
+                  </div>
                 </div>
-                <h3 class="brand-name">{{ brand.name }}</h3>
-                <p class="brand-description">{{ brand.description }}</p>
-                <div class="brand-stats">
-                  <span class="stat">{{ brand.productCount }} Products</span>
-                  <span class="stat">From ${{ brand.startingPrice }}</span>
-                </div>
-                <button class="brand-cta">
-                  Explore Collection
-                  <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12,5 19,12 12,19"></polyline>
-                  </svg>
-                </button>
               </div>
             </div>
           </div>
@@ -615,7 +693,7 @@
       </div>
     </main>
     
-    <!-- Footer & Support -->
+    <!-- Enhanced Footer -->
     <footer class="main-footer">
       <div class="footer-container">
         
@@ -627,6 +705,18 @@
               <span class="logo-text">SOLE HUB</span>
             </div>
             <p class="footer-tagline">Your ultimate destination for premium footwear</p>
+            
+            <!-- Newsletter Signup -->
+            <div class="newsletter-signup">
+              <h4>Stay Updated</h4>
+              <div class="newsletter-form">
+                <input type="email" placeholder="Enter your email" class="newsletter-input" />
+                <button class="newsletter-btn">Subscribe</button>
+              </div>
+              <p class="newsletter-note">Get exclusive deals and new arrivals first</p>
+            </div>
+            
+            <!-- Social Media Links -->
             <div class="footer-social">
               <a href="#" class="social-link facebook">
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -655,12 +745,12 @@
             <div class="footer-column">
               <h4 class="footer-title">Help & Support</h4>
               <ul class="footer-menu">
-                <li><a href="#" class="footer-link">Customer Service</a></li>
+                <li><a href="#" class="footer-link">FAQ</a></li>
+                <li><a href="#" class="footer-link">Help Center</a></li>
                 <li><a href="#" class="footer-link">Size Guide</a></li>
                 <li><a href="#" class="footer-link">Shipping Info</a></li>
                 <li><a href="#" class="footer-link">Returns & Exchanges</a></li>
-                <li><a href="#" class="footer-link">Track Your Order</a></li>
-                <li><a href="#" class="footer-link">FAQ</a></li>
+                <li><a href="#" class="footer-link">Contact Us</a></li>
               </ul>
             </div>
             
@@ -672,7 +762,6 @@
                 <li><a href="#" class="footer-link">Press</a></li>
                 <li><a href="#" class="footer-link">Store Locator</a></li>
                 <li><a href="#" class="footer-link">Sustainability</a></li>
-                <li><a href="#" class="footer-link">Affiliate Program</a></li>
               </ul>
             </div>
             
@@ -683,13 +772,12 @@
                 <li><a href="#" class="footer-link">Privacy Policy</a></li>
                 <li><a href="#" class="footer-link">Cookie Policy</a></li>
                 <li><a href="#" class="footer-link">Accessibility</a></li>
-                <li><a href="#" class="footer-link">California Privacy</a></li>
               </ul>
             </div>
             
             <div class="footer-column">
               <h4 class="footer-title">Download Our App</h4>
-              <p class="app-description">Get exclusive deals and early access to new arrivals</p>
+              <p class="app-description">Get exclusive deals and early access</p>
               <div class="app-downloads">
                 <a href="#" class="app-download">
                   <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on App Store" />
@@ -723,6 +811,17 @@
       </div>
     </footer>
     
+    <!-- Support Chatbot / Live Chat Floating Button -->
+    <div class="floating-support">
+      <button class="support-chatbot" @click="openChatbot">
+        <svg class="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span class="support-text">Need Help?</span>
+        <div class="support-badge">Live</div>
+      </button>
+    </div>
+    
   </div>
 </template>
 
@@ -738,30 +837,35 @@ export default {
       searchQuery: '',
       isListening: false,
       showProfileMenu: false,
-      showLocationModal: false,
-      showAuthModal: false,
       
       // Banner state
       currentBanner: 0,
       bannerInterval: null,
       
       // Category state
-      isCategorySticky: false,
       activeCategory: 'all',
+      
+      // Recommendations state
+      activeRecTab: 'just-for-you',
+      activeArrivalsTab: 'new-arrivals',
       
       // User state
       user: {
         isLoggedIn: true,
         name: 'John Doe',
         email: 'john@example.com',
-        avatar: null,
-        orders: 5,
-        points: 1250
+        avatar: null
       },
       
-      userLocation: 'New York, NY',
       cartCount: 3,
       wishlistCount: 7,
+      
+      // Countdown timer state
+      countdown: {
+        hours: 23,
+        minutes: 45,
+        seconds: 30
+      },
       
       // Search suggestions
       trendingSuggestions: [
@@ -810,30 +914,40 @@ export default {
         }
       ],
       
-      // Categories
-      categories: [
-        { id: 'all', name: 'All', icon: '👟', count: 2547 },
+      // Quick categories
+      quickCategories: [
         { id: 'men', name: 'Men', icon: '👨', count: 1203 },
         { id: 'women', name: 'Women', icon: '👩', count: 987 },
         { id: 'kids', name: 'Kids', icon: '👶', count: 357 },
         { id: 'sports', name: 'Sports', icon: '⚽', count: 789 },
         { id: 'casual', name: 'Casual', icon: '👟', count: 654 },
-        { id: 'formal', name: 'Formal', icon: '👞', count: 432 },
-        { id: 'boots', name: 'Boots', icon: '🥾', count: 234 },
-        { id: 'sandals', name: 'Sandals', icon: '👡', count: 178 }
+        { id: 'formal', name: 'Formal', icon: '👞', count: 432 }
       ],
       
-      // Quick shortcuts
-      quickShortcuts: [
+      // Quick filters
+      quickFilters: [
+        { id: 'price', label: 'Under ₹999', icon: '💰', active: false },
         { id: 'size', label: 'Size Guide', icon: '📏', active: false },
-        { id: 'price', label: 'Price Match', icon: '💰', active: false },
-        { id: 'tryon', label: 'Try-On AR', icon: '📱', badge: 'NEW' },
-        { id: 'recent', label: 'Recently Viewed', icon: '👁️', badge: '5' },
-        { id: 'offers', label: 'Top Offers', icon: '🏷️', badge: '20%' },
-        { id: 'outlet', label: 'Outlet', icon: '🛍️', active: false }
+        { id: 'new', label: 'New Arrivals', icon: '✨', badge: 'NEW', active: false },
+        { id: 'sale', label: 'On Sale', icon: '🏷️', badge: '50%', active: false },
+        { id: 'premium', label: 'Premium Brands', icon: '👑', active: false }
       ],
       
-      // Products data
+      // Recommendation tabs
+      recommendationTabs: [
+        { id: 'just-for-you', name: 'Just for You' },
+        { id: 'complete-look', name: 'Complete the Look' },
+        { id: 'similar-styles', name: 'Similar Styles' }
+      ],
+      
+      // Arrivals tabs
+      arrivalsTabs: [
+        { id: 'new-arrivals', name: 'New Arrivals', icon: '✨', count: 127 },
+        { id: 'best-sellers', name: 'Best Sellers', icon: '🔥', count: 89 },
+        { id: 'trending', name: 'Trending', icon: '📈', count: 156 }
+      ],
+      
+      // Sample products data
       recommendedProducts: [
         {
           id: 1,
@@ -846,7 +960,10 @@ export default {
           reviews: 247,
           isNew: false,
           discount: 17,
-          exclusive: true
+          exclusive: true,
+          aiMatch: true,
+          colors: ['#ff6b6b', '#4ecdc4', '#45b7d1'],
+          sizeRange: '6-12'
         },
         {
           id: 2,
@@ -857,7 +974,10 @@ export default {
           rating: 4.9,
           reviews: 189,
           isNew: true,
-          exclusive: false
+          exclusive: false,
+          aiMatch: true,
+          colors: ['#333', '#fff', '#667eea'],
+          sizeRange: '5-13'
         },
         {
           id: 3,
@@ -870,45 +990,26 @@ export default {
           reviews: 156,
           isNew: false,
           discount: 10,
-          exclusive: false
-        },
-        {
-          id: 4,
-          name: 'Old Skool Platform',
-          brand: 'Vans',
-          price: 79.99,
-          image: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=400&h=400&fit=crop',
-          rating: 4.7,
-          reviews: 203,
-          isNew: false,
-          exclusive: false
-        },
-        {
-          id: 5,
-          name: 'Jordan 1 Retro High',
-          brand: 'Jordan',
-          price: 169.99,
-          image: 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=400&h=400&fit=crop',
-          rating: 4.9,
-          reviews: 312,
-          isNew: true,
-          exclusive: true
+          exclusive: false,
+          colors: ['#000', '#fff', '#ff6b6b'],
+          sizeRange: '4-14'
         }
       ],
       
       newArrivals: [
         {
-          id: 6,
+          id: 4,
           name: 'React Infinity Run',
           brand: 'Nike',
           price: 159.99,
           image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&h=400&fit=crop',
           rating: 4.8,
           reviews: 89,
-          isNew: true
+          isNew: true,
+          colors: ['#45b7d1', '#fff', '#333']
         },
         {
-          id: 7,
+          id: 5,
           name: 'NMD_R1 V2',
           brand: 'Adidas',
           price: 139.99,
@@ -917,60 +1018,32 @@ export default {
           rating: 4.7,
           reviews: 67,
           isNew: true,
-          discount: 13
-        },
-        {
-          id: 8,
-          name: 'Classic Leather',
-          brand: 'Reebok',
-          price: 74.99,
-          image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop',
-          rating: 4.5,
-          reviews: 134,
-          isNew: true
+          discount: 13,
+          colors: ['#4ecdc4', '#333', '#fff']
         }
       ],
       
-      trendingProducts: [
+      bestSellers: [
         {
-          id: 9,
-          name: 'Dunk Low',
-          brand: 'Nike',
-          price: 109.99,
-          image: 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=400&h=400&fit=crop',
-          views: '12.3K',
-          sales: '1.2K',
-          trendGrowth: 45
-        },
-        {
-          id: 10,
-          name: 'Yeezy Boost 350',
-          brand: 'Adidas',
-          price: 229.99,
-          image: 'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=400&h=400&fit=crop',
-          views: '8.7K',
-          sales: '890',
-          trendGrowth: 32
-        },
-        {
-          id: 11,
-          name: 'Travis Scott Jordan 1',
+          id: 6,
+          name: 'Jordan 1 Retro High',
           brand: 'Jordan',
-          price: 1499.99,
-          image: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=400&h=400&fit=crop',
-          views: '15.2K',
-          sales: '234',
-          trendGrowth: 78
-        },
+          price: 169.99,
+          image: 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=400&h=400&fit=crop',
+          rating: 4.9,
+          reviews: 312,
+          isBestseller: true,
+          colors: ['#ff6b6b', '#333', '#fff']
+        }
+      ],
+      
+      recentlyViewed: [
         {
-          id: 12,
-          name: 'Off-White Blazer',
-          brand: 'Nike',
-          price: 899.99,
-          image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=400&h=400&fit=crop',
-          views: '6.4K',
-          sales: '156',
-          trendGrowth: 23
+          id: 7,
+          name: 'Classic Leather',
+          brand: 'Reebok',
+          price: 74.99,
+          image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop'
         }
       ],
       
@@ -1002,17 +1075,42 @@ export default {
           productCount: 234,
           startingPrice: 109.99
         }
+      ],
+      
+      customerReviews: [
+        {
+          id: 1,
+          name: 'Sarah Johnson',
+          rating: 5,
+          text: 'Amazing quality and super comfortable! The delivery was fast too.',
+          avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b5e5?w=50&h=50&fit=crop&crop=face',
+          productImage: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=60&h=60&fit=crop',
+          productName: 'Nike Air Max 270'
+        },
+        {
+          id: 2,
+          name: 'Mike Chen',
+          rating: 5,
+          text: 'Perfect fit and style! Exactly what I was looking for.',
+          avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face',
+          productImage: 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=60&h=60&fit=crop',
+          productName: 'Adidas Ultraboost'
+        }
       ]
     }
   },
   mounted() {
     this.initializeEventListeners()
     this.startBannerAutoSlide()
+    this.startCountdownTimer()
   },
   beforeDestroy() {
     this.cleanupEventListeners()
     if (this.bannerInterval) {
       clearInterval(this.bannerInterval)
+    }
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval)
     }
   },
   methods: {
@@ -1030,7 +1128,6 @@ export default {
     handleScroll() {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop
       this.isScrolled = scrollTop > 50
-      this.isCategorySticky = scrollTop > 300
     },
     
     handleClickOutside(event) {
@@ -1054,14 +1151,12 @@ export default {
     },
     
     handleSearchInput() {
-      // Implement real search logic here
       this.showSuggestions = true
     },
     
     selectSuggestion(suggestion) {
       this.searchQuery = suggestion
       this.showSuggestions = false
-      // Implement search action
       console.log('Search for:', suggestion)
     },
     
@@ -1150,26 +1245,31 @@ export default {
       console.log('Selected category:', category.name)
     },
     
-    scrollCategories(direction) {
-      const container = this.$refs.categoryScroll
-      const scrollAmount = 200
-      
-      if (direction === 'left') {
-        container.scrollLeft -= scrollAmount
-      } else {
-        container.scrollLeft += scrollAmount
-      }
-    },
-    
-    // Shortcut functionality
-    handleShortcut(shortcut) {
-      console.log('Shortcut clicked:', shortcut.label)
-      // Implement specific shortcut actions
+    // Filter functionality
+    toggleFilter(filter) {
+      filter.active = !filter.active
+      console.log('Toggled filter:', filter.label)
     },
     
     // Product functionality
     viewProduct(product) {
       console.log('View product:', product.name)
+      
+      // Add to recently viewed if not already there
+      if (!this.recentlyViewed.find(p => p.id === product.id)) {
+        this.recentlyViewed.unshift({
+          id: product.id,
+          name: product.name,
+          brand: product.brand,
+          price: product.price,
+          image: product.image
+        })
+        
+        // Keep only last 10 viewed items
+        if (this.recentlyViewed.length > 10) {
+          this.recentlyViewed = this.recentlyViewed.slice(0, 10)
+        }
+      }
     },
     
     addToCart(product) {
@@ -1179,11 +1279,9 @@ export default {
     
     toggleWishlist(productId) {
       console.log('Toggle wishlist for product:', productId)
-      // Implementation would check current state and toggle
     },
     
     isInWishlist(productId) {
-      // Mock implementation - would check actual wishlist state
       return Math.random() > 0.7
     },
     
@@ -1191,9 +1289,55 @@ export default {
       console.log('Quick view:', product.name)
     },
     
+    clearRecentlyViewed() {
+      this.recentlyViewed = []
+    },
+    
     // Brand functionality
     viewBrand(brand) {
       console.log('View brand:', brand.name)
+    },
+    
+    // Tab functionality
+    getRecommendationProducts() {
+      return this.recommendedProducts
+    },
+    
+    getArrivalsProducts() {
+      switch (this.activeArrivalsTab) {
+        case 'new-arrivals':
+          return this.newArrivals
+        case 'best-sellers':
+          return this.bestSellers
+        case 'trending':
+          return this.recommendedProducts.slice(0, 2)
+        default:
+          return this.newArrivals
+      }
+    },
+    
+    // Timer functionality
+    startCountdownTimer() {
+      this.countdownInterval = setInterval(() => {
+        if (this.countdown.seconds > 0) {
+          this.countdown.seconds--
+        } else if (this.countdown.minutes > 0) {
+          this.countdown.minutes--
+          this.countdown.seconds = 59
+        } else if (this.countdown.hours > 0) {
+          this.countdown.hours--
+          this.countdown.minutes = 59
+          this.countdown.seconds = 59
+        } else {
+          // Reset timer when it reaches 0
+          this.countdown = { hours: 23, minutes: 59, seconds: 59 }
+        }
+      }, 1000)
+    },
+    
+    // Support functionality
+    openChatbot() {
+      console.log('Open support chatbot')
     }
   }
 }
@@ -1206,8 +1350,8 @@ export default {
   background: #fafafa;
 }
 
-/* Sticky Header */
-.sticky-header {
+/* Enhanced Header */
+.main-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -1218,7 +1362,7 @@ export default {
   border-bottom: 1px solid #e1e5e9;
 }
 
-.sticky-header.header-scrolled {
+.main-header.header-scrolled {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.95);
@@ -1229,73 +1373,48 @@ export default {
   margin: 0 auto;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: 240px auto 1fr 240px;
+  grid-template-columns: 280px 1fr 280px;
   align-items: center;
-  gap: 20px;
-  min-height: 70px;
+  gap: 30px;
+  min-height: 80px;
 }
 
-/* Location Section */
-.location-section .location-btn {
+/* Brand Section */
+.brand-section {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: none;
-  border: 1px solid #e1e5e9;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  width: 100%;
 }
 
-.location-section .location-btn:hover {
-  border-color: #667eea;
-  background: #f8f9ff;
-}
-
-.location-icon {
-  width: 16px;
-  height: 16px;
-  color: #667eea;
-}
-
-.location-info {
+.main-logo {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.location-text {
-  font-size: 13px;
-  font-weight: 600;
-  color: #333;
-}
-
-.delivery-info {
-  font-size: 11px;
-  color: #28a745;
-}
-
-/* Logo Section */
-.logo-link {
-  text-decoration: none;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 20px;
-  font-weight: 800;
-  color: #667eea;
-}
-
 .logo-icon {
-  font-size: 24px;
+  font-size: 28px;
+  margin-bottom: 2px;
 }
 
-/* Search Section */
+.brand-name {
+  font-size: 18px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.brand-tagline {
+  font-size: 10px;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Enhanced Search Section */
 .search-section {
   max-width: 600px;
   margin: 0 auto;
@@ -1307,23 +1426,23 @@ export default {
   align-items: center;
   background: #f8f9fa;
   border: 2px solid transparent;
-  border-radius: 25px;
-  padding: 4px;
+  border-radius: 30px;
+  padding: 6px;
   transition: all 0.3s ease;
   position: relative;
 }
 
-.search-container.search-active {
+.search-container.search-focused {
   border-color: #667eea;
   background: white;
   box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
 }
 
 .search-icon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   color: #666;
-  margin: 0 12px;
+  margin: 0 15px;
 }
 
 .search-input {
@@ -1332,7 +1451,7 @@ export default {
   outline: none;
   background: transparent;
   font-size: 16px;
-  padding: 8px 0;
+  padding: 12px 0;
   color: #333;
 }
 
@@ -1340,36 +1459,36 @@ export default {
   color: #999;
 }
 
-.mic-btn {
+.voice-search-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   background: none;
   border: none;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-right: 4px;
+  margin-right: 6px;
 }
 
-.mic-btn:hover {
+.voice-search-btn:hover {
   background: rgba(102, 126, 234, 0.1);
 }
 
-.mic-btn.mic-active {
+.voice-search-btn.listening {
   background: #ff4757;
   animation: pulse 1s infinite;
 }
 
 .mic-icon {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   color: #667eea;
 }
 
-.mic-btn.mic-active .mic-icon {
+.voice-search-btn.listening .mic-icon {
   color: white;
 }
 
@@ -1409,7 +1528,7 @@ export default {
   color: #333;
 }
 
-.clear-btn {
+.clear-search-btn {
   background: none;
   border: none;
   color: #667eea;
@@ -1421,7 +1540,7 @@ export default {
   transition: background 0.2s ease;
 }
 
-.clear-btn:hover {
+.clear-search-btn:hover {
   background: #f8f9ff;
 }
 
@@ -1446,44 +1565,25 @@ export default {
 }
 
 .suggestion-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: block;
   padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s ease;
   font-size: 13px;
   margin-bottom: 4px;
+  color: #333;
 }
 
 .suggestion-item:hover {
   background: #f8f9ff;
 }
 
-.suggestion-icon {
-  width: 14px;
-  height: 14px;
-  color: #999;
-}
-
-.suggestion-icon.trending {
-  color: #ff6b6b;
-}
-
-.suggestion-icon.brand {
-  color: #667eea;
-}
-
-.suggestion-icon.category {
-  color: #28a745;
-}
-
 /* Header Actions */
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
   justify-content: flex-end;
 }
 
@@ -1491,13 +1591,13 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  padding: 8px;
+  gap: 4px;
+  padding: 8px 12px;
   background: none;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  border-radius: 8px;
+  border-radius: 10px;
   position: relative;
 }
 
@@ -1506,29 +1606,27 @@ export default {
 }
 
 .action-icon {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   color: #333;
 }
 
 .action-label {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   color: #666;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
-.badge {
+.action-badge {
   position: absolute;
   top: 2px;
   right: 2px;
   background: #ff4757;
   color: white;
-  border-radius: 10px;
-  padding: 2px 6px;
   font-size: 10px;
   font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
   min-width: 16px;
   text-align: center;
 }
@@ -1542,16 +1640,10 @@ export default {
   position: relative;
 }
 
-.profile-avatar {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
 .profile-avatar img {
-  width: 100%;
-  height: 100%;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
   object-fit: cover;
 }
 
@@ -1562,104 +1654,74 @@ export default {
   background: white;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  border: 1px solid #e1e5e9;
-  min-width: 260px;
-  margin-top: 8px;
+  min-width: 200px;
   z-index: 1000;
+  margin-top: 8px;
   overflow: hidden;
+  border: 1px solid #e1e5e9;
 }
 
 .profile-header {
-  padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .profile-info h4 {
   margin: 0 0 4px 0;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
 }
 
 .profile-info p {
-  margin: 0 0 12px 0;
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-.profile-stats {
-  display: flex;
-  gap: 20px;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.stat-number {
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.stat-label {
-  font-size: 11px;
-  opacity: 0.8;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.profile-menu {
-  padding: 12px 0;
-}
-
-.menu-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 20px;
-  text-decoration: none;
-  color: #333;
-  font-size: 14px;
-  font-weight: 500;
-  background: none;
-  border: none;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.menu-item:hover {
-  background: #f8f9ff;
-}
-
-.menu-icon {
-  width: 16px;
-  height: 16px;
+  margin: 0;
+  font-size: 12px;
   color: #666;
 }
 
+.profile-menu {
+  padding: 8px 0;
+}
+
+.menu-item {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+}
+
+.menu-item:hover {
+  background: #f8f9fa;
+}
+
 .menu-divider {
-  height: 1px;
-  background: #e1e5e9;
   margin: 8px 0;
+  border: none;
+  border-top: 1px solid #e1e5e9;
 }
 
 .menu-item.logout {
   color: #dc3545;
+  font-weight: 600;
 }
 
-.menu-item.logout .menu-icon {
-  color: #dc3545;
+.menu-item.logout:hover {
+  background: #ffe6e6;
 }
 
 /* Hero Banners */
 .hero-banners {
-  margin-top: 70px;
+  margin-top: 80px;
   position: relative;
-  height: 500px;
+  height: 600px;
   overflow: hidden;
 }
 
@@ -1671,13 +1733,13 @@ export default {
 
 .banner-container {
   display: flex;
-  width: 100%;
+  width: 300%;
   height: 100%;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s ease-in-out;
 }
 
 .banner-slide {
-  min-width: 100%;
+  width: 33.333%;
   height: 100%;
   position: relative;
   display: flex;
@@ -1688,8 +1750,8 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1;
 }
 
@@ -1703,9 +1765,9 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(102, 126, 234, 0.3) 100%);
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
 }
 
 .banner-content {
@@ -1713,36 +1775,37 @@ export default {
   z-index: 2;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 20px;
-  display: grid;
-  grid-template-columns: 1fr auto;
+  padding: 0 40px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 40px;
   width: 100%;
 }
 
 .banner-text {
-  color: white;
+  flex: 1;
+  max-width: 600px;
 }
 
 .banner-badge {
   display: inline-block;
   background: rgba(255, 255, 255, 0.2);
-  padding: 4px 12px;
-  border-radius: 12px;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 16px;
-  backdrop-filter: blur(10px);
+  letter-spacing: 1px;
+  margin-bottom: 20px;
 }
 
 .banner-title {
   font-size: 48px;
   font-weight: 800;
   margin: 0 0 16px 0;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 
 .banner-subtitle {
@@ -1758,62 +1821,49 @@ export default {
   margin-bottom: 32px;
 }
 
-.banner-feature {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  opacity: 0.9;
-}
-
-.banner-feature::before {
-  content: '✓';
-  color: #28a745;
-  font-weight: bold;
+.feature-tag {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .banner-actions {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  gap: 16px;
+  align-items: center;
 }
 
 .cta-primary {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 16px 32px;
   background: white;
   color: #667eea;
   border: none;
-  border-radius: 50px;
-  font-size: 18px;
+  padding: 16px 32px;
+  border-radius: 30px;
   font-weight: 700;
+  font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
-  justify-content: center;
-  min-width: 200px;
 }
 
 .cta-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
-}
-
-.cta-icon {
-  width: 18px;
-  height: 18px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .cta-secondary {
-  padding: 12px 24px;
   background: transparent;
   color: white;
   border: 2px solid white;
-  border-radius: 25px;
-  font-size: 16px;
+  padding: 14px 28px;
+  border-radius: 30px;
   font-weight: 600;
+  font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -1823,10 +1873,15 @@ export default {
   color: #667eea;
 }
 
+.cta-arrow {
+  width: 18px;
+  height: 18px;
+}
+
 /* Banner Navigation */
 .banner-navigation {
   position: absolute;
-  bottom: 20px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -1841,10 +1896,10 @@ export default {
 }
 
 .banner-dot {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.3);
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -1852,7 +1907,7 @@ export default {
 
 .banner-dot.active {
   background: white;
-  transform: scale(1.5);
+  transform: scale(1.2);
 }
 
 .banner-controls {
@@ -1861,17 +1916,17 @@ export default {
 }
 
 .banner-control {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  cursor: pointer;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
 }
 
 .banner-control:hover {
@@ -1879,143 +1934,86 @@ export default {
 }
 
 .banner-control svg {
-  width: 16px;
-  height: 16px;
-  color: white;
+  width: 18px;
+  height: 18px;
 }
 
-/* Category Navigation */
-.category-navigation {
+/* Quick Categories */
+.quick-categories {
+  padding: 60px 0;
   background: white;
-  border-bottom: 1px solid #e1e5e9;
-  padding: 16px 0;
-  transition: all 0.3s ease;
-  position: relative;
-  z-index: 100;
 }
 
-.category-navigation.nav-sticky {
-  position: fixed;
-  top: 70px;
-  left: 0;
-  right: 0;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.95);
-}
-
-.category-container {
+.categories-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
-  position: relative;
 }
 
-.category-scroll {
+.section-title {
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 40px;
+  text-align: center;
+  color: #333;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.category-tile {
   display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  scroll-behavior: smooth;
-  padding: 8px 0;
-}
-
-.category-scroll::-webkit-scrollbar {
-  display: none;
-}
-
-.category-chip {
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
+  gap: 12px;
+  padding: 32px 20px;
   background: white;
-  border: 2px solid #e1e5e9;
-  border-radius: 25px;
+  border: 2px solid #f0f0f0;
+  border-radius: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
-  white-space: nowrap;
-  font-size: 14px;
-  font-weight: 600;
-  flex-shrink: 0;
+  text-align: center;
 }
 
-.category-chip:hover {
+.category-tile:hover {
   border-color: #667eea;
-  background: #f8f9ff;
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
 }
 
-.category-chip.active {
+.category-tile.active {
   border-color: #667eea;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
 }
 
 .category-icon {
-  font-size: 16px;
+  font-size: 36px;
+  margin-bottom: 8px;
 }
 
 .category-name {
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
 }
 
 .category-count {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 2px 6px;
-  border-radius: 8px;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 14px;
+  color: #666;
 }
 
-.category-chip.active .category-count {
-  background: rgba(255, 255, 255, 0.3);
+.category-tile.active .category-count {
+  color: rgba(255, 255, 255, 0.8);
 }
 
-.category-arrows {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  justify-content: space-between;
-  left: -16px;
-  right: -16px;
-  pointer-events: none;
-}
-
-.category-arrow {
-  width: 32px;
-  height: 32px;
-  background: white;
-  border: 1px solid #e1e5e9;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  pointer-events: all;
-}
-
-.category-arrow:hover {
-  border-color: #667eea;
-  background: #f8f9ff;
-}
-
-.category-arrow svg {
-  width: 14px;
-  height: 14px;
-  color: #667eea;
-}
-
-/* Quick Shortcuts */
-.quick-shortcuts {
-  background: white;
-  padding: 20px 0;
-  border-bottom: 1px solid #e1e5e9;
+/* Filter Shortcuts */
+.filter-shortcuts {
+  padding: 40px 0;
+  background: #f8f9fa;
 }
 
 .shortcuts-container {
@@ -2025,67 +2023,57 @@ export default {
 }
 
 .shortcuts-title {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
+  margin-bottom: 20px;
   color: #333;
-  margin-bottom: 16px;
 }
 
-.shortcuts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 12px;
-}
-
-.shortcut-chip {
+.filter-chips {
   display: flex;
-  flex-direction: column;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.filter-chip {
+  display: flex;
   align-items: center;
   gap: 8px;
-  padding: 16px 12px;
+  padding: 12px 20px;
   background: white;
   border: 2px solid #e1e5e9;
-  border-radius: 12px;
+  border-radius: 25px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  font-weight: 600;
   position: relative;
 }
 
-.shortcut-chip:hover {
+.filter-chip:hover {
   border-color: #667eea;
   background: #f8f9ff;
-  transform: translateY(-2px);
 }
 
-.shortcut-chip.active {
+.filter-chip.active {
   border-color: #667eea;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #667eea;
   color: white;
 }
 
-.shortcut-icon {
-  font-size: 24px;
+.filter-icon {
+  font-size: 16px;
 }
 
-.shortcut-label {
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
-  line-height: 1.2;
-}
-
-.shortcut-badge {
+.filter-badge {
   position: absolute;
-  top: -6px;
-  right: -6px;
+  top: -8px;
+  right: -8px;
   background: #ff4757;
   color: white;
-  border-radius: 10px;
-  padding: 2px 6px;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
-  min-width: 16px;
-  text-align: center;
+  padding: 2px 6px;
+  border-radius: 8px;
 }
 
 /* Main Content */
@@ -2099,14 +2087,21 @@ export default {
   padding: 0 20px;
 }
 
-.content-section {
-  margin-bottom: 60px;
+/* Content Sections */
+.recommendations-section,
+.recently-viewed-section,
+.arrivals-bestsellers-section,
+.deals-section,
+.interactive-features,
+.brand-spotlight-section,
+.trust-elements {
+  margin-bottom: 80px;
 }
 
 .section-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   margin-bottom: 32px;
 }
 
@@ -2118,14 +2113,14 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 800;
+  margin-bottom: 8px;
   color: #333;
-  margin: 0 0 8px 0;
 }
 
 .title-icon {
-  font-size: 36px;
+  font-size: 24px;
 }
 
 .section-subtitle {
@@ -2135,72 +2130,96 @@ export default {
 }
 
 .view-all-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
-  background: white;
-  color: #667eea;
+  background: none;
   border: 2px solid #667eea;
-  border-radius: 25px;
-  font-size: 14px;
+  color: #667eea;
+  padding: 10px 20px;
+  border-radius: 20px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .view-all-btn:hover {
   background: #667eea;
   color: white;
-  transform: translateY(-2px);
 }
 
-.view-all-icon {
-  width: 16px;
-  height: 16px;
+/* Recommendation Tabs */
+.recommendations-tabs {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.rec-tab {
+  padding: 12px 0;
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.rec-tab.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
 }
 
 /* Products Carousel */
 .products-carousel {
-  position: relative;
+  overflow: hidden;
 }
 
 .products-scroll {
   display: flex;
-  gap: 20px;
+  gap: 24px;
   overflow-x: auto;
+  padding-bottom: 16px;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  scroll-behavior: smooth;
-  padding: 8px 0 20px 0;
 }
 
 .products-scroll::-webkit-scrollbar {
   display: none;
 }
 
-/* Product Card */
+/* Enhanced Product Cards */
 .product-card {
   min-width: 280px;
   background: white;
   border-radius: 16px;
   overflow: hidden;
-  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
-  border: 1px solid #e1e5e9;
-  position: relative;
+  cursor: pointer;
 }
 
 .product-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-  border-color: #667eea;
+}
+
+.product-card.enhanced {
+  min-width: 320px;
+}
+
+.product-card.compact {
+  min-width: 200px;
 }
 
 .product-image-container {
   position: relative;
-  height: 200px;
+  height: 240px;
   overflow: hidden;
+}
+
+.product-card.compact .product-image-container {
+  height: 160px;
 }
 
 .product-image {
@@ -2221,30 +2240,40 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  z-index: 5;
 }
 
 .badge {
   padding: 4px 8px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: white;
 }
 
 .badge.new {
-  background: #4facfe;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
 }
 
 .badge.sale {
-  background: #fa709a;
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: white;
 }
 
 .badge.exclusive {
-  background: #ffd700;
-  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.badge.bestseller {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+  color: white;
+}
+
+.badge.ai-match {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: white;
 }
 
 .product-actions {
@@ -2253,10 +2282,9 @@ export default {
   right: 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   opacity: 0;
   transition: opacity 0.3s ease;
-  z-index: 5;
 }
 
 .product-card:hover .product-actions {
@@ -2264,54 +2292,61 @@ export default {
 }
 
 .product-action {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: white;
-  border: none;
-  border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .product-action:hover {
-  background: #667eea;
-  color: white;
+  background: white;
   transform: scale(1.1);
 }
 
-.product-action.active {
-  background: #ff4757;
-  color: white;
+.product-action svg {
+  width: 16px;
+  height: 16px;
+  color: #333;
 }
 
-.product-action svg {
-  width: 14px;
-  height: 14px;
+.product-action.active svg {
+  color: #ff4757;
+  fill: #ff4757;
 }
 
 .product-info {
   padding: 20px;
 }
 
+.product-card.compact .product-info {
+  padding: 16px;
+}
+
 .product-brand {
   font-size: 12px;
-  font-weight: 600;
   color: #666;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .product-name {
   font-size: 16px;
   font-weight: 700;
+  margin-bottom: 8px;
   color: #333;
-  margin: 0 0 8px 0;
   line-height: 1.3;
+}
+
+.product-card.compact .product-name {
+  font-size: 14px;
 }
 
 .product-rating {
@@ -2328,13 +2363,11 @@ export default {
 
 .star {
   font-size: 12px;
-  filter: grayscale(1);
-  opacity: 0.3;
+  color: #ddd;
 }
 
 .star.filled {
-  filter: grayscale(0);
-  opacity: 1;
+  color: #ffd700;
 }
 
 .rating-count {
@@ -2342,43 +2375,84 @@ export default {
   color: #666;
 }
 
+.product-colors {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.color-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #e1e5e9;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.color-dot:hover {
+  transform: scale(1.2);
+}
+
+.product-size-preview {
+  margin-bottom: 12px;
+}
+
+.size-label {
+  font-size: 11px;
+  color: #666;
+  font-weight: 600;
+}
+
+.size-range {
+  font-size: 12px;
+  color: #333;
+  font-weight: 600;
+}
+
 .product-price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 16px;
 }
 
 .current-price {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 800;
   color: #333;
+}
+
+.product-card.compact .current-price {
+  font-size: 16px;
 }
 
 .original-price {
   font-size: 14px;
   color: #999;
   text-decoration: line-through;
-  margin-left: 8px;
 }
 
 .add-to-cart-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
 }
 
 .add-to-cart-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
 }
 
 .cart-icon {
@@ -2386,123 +2460,389 @@ export default {
   height: 16px;
 }
 
-/* Trending Grid */
-.trending-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.trending-card {
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.3s ease;
+/* Recently Viewed */
+.clear-history-btn {
+  background: none;
   border: 1px solid #e1e5e9;
-  position: relative;
-}
-
-.trending-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.trending-rank {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 6px 12px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  z-index: 5;
-}
-
-.rank-number {
-  font-weight: 700;
-  font-size: 14px;
-}
-
-.trend-indicator.up {
-  color: #28a745;
+  color: #666;
+  padding: 8px 16px;
+  border-radius: 16px;
   font-size: 12px;
   font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.trending-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+.clear-history-btn:hover {
+  border-color: #ff4757;
+  color: #ff4757;
+}
+
+/* Arrivals & Bestsellers Tabs */
+.section-tabs {
   display: flex;
-  align-items: flex-end;
-  padding: 20px;
-  z-index: 4;
+  gap: 32px;
+  margin-bottom: 40px;
+  border-bottom: 2px solid #f0f0f0;
 }
 
-.trending-card:hover .trending-overlay {
-  opacity: 1;
-}
-
-.trend-stats {
+.section-tab {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.section-tab.active {
+  border-bottom-color: #667eea;
+}
+
+.tab-icon {
+  font-size: 20px;
+}
+
+.tab-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #666;
+}
+
+.section-tab.active .tab-name {
+  color: #667eea;
+}
+
+.tab-count {
+  background: #f0f0f0;
+  color: #666;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.section-tab.active .tab-count {
+  background: #667eea;
   color: white;
 }
 
-.stat {
+/* Products Grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 32px;
+}
+
+.products-grid.enhanced {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+/* Deals Section */
+.deals-section .section-header.special {
+  align-items: center;
+}
+
+.section-title.deals {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.deals-timer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.timer-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+}
+
+.countdown-timer {
+  display: flex;
+  gap: 12px;
+}
+
+.time-unit {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #ff4757;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  min-width: 50px;
 }
 
-.stat-value {
-  font-weight: 700;
-  font-size: 16px;
+.time-value {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
 }
 
-.stat-label {
-  font-size: 12px;
-  opacity: 0.8;
+.time-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
 }
 
-/* Brand Spotlight */
-.brand-spotlight-grid {
+.deals-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
 }
 
-.brand-spotlight-card {
+.deal-highlight {
   background: white;
   border-radius: 16px;
   overflow: hidden;
-  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
-  border: 1px solid #e1e5e9;
+}
+
+.deal-highlight:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.deal-banner {
+  padding: 40px 32px;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.deal-banner.sale {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.deal-banner.exclusive {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.deal-banner h3 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.deal-banner p {
+  font-size: 16px;
+  margin-bottom: 24px;
+  opacity: 0.9;
+}
+
+.deal-cta {
+  background: white;
+  color: #333;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.deal-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Interactive Features */
+.feature-promos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 32px;
+}
+
+.feature-promo {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.feature-promo:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.feature-content {
+  flex: 1;
+}
+
+.feature-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.feature-promo h3 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.feature-promo p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.feature-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+.feature-cta {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.feature-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+}
+
+.feature-visual {
+  flex: 0 0 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ar-demo,
+.store-locator {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-mockup {
+  width: 120px;
+  height: 200px;
+  background: #333;
+  border-radius: 20px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+}
+
+.map-mockup {
+  width: 160px;
+  height: 120px;
+  background: #f0f0f0;
+  border-radius: 12px;
   position: relative;
-  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.store-pins {
+  display: flex;
+  gap: 20px;
+}
+
+.store-pin {
+  font-size: 24px;
+  animation: bounce 2s infinite;
+}
+
+.store-pin:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.store-pin:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Brand Spotlight */
+.brands-carousel {
+  overflow: hidden;
+}
+
+.brands-scroll {
+  display: flex;
+  gap: 32px;
+  overflow-x: auto;
+  padding-bottom: 16px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.brands-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.brand-spotlight-card {
+  min-width: 350px;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .brand-spotlight-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 .brand-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
+  height: 200px;
+  overflow: hidden;
 }
 
 .brand-bg {
@@ -2515,20 +2855,14 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(102, 126, 234, 0.4) 100%);
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
 }
 
 .brand-content {
-  position: relative;
-  z-index: 2;
   padding: 32px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  color: white;
+  text-align: center;
 }
 
 .brand-logo {
@@ -2537,57 +2871,209 @@ export default {
 
 .brand-logo img {
   height: 40px;
-  width: auto;
-  filter: brightness(0) invert(1);
+  object-fit: contain;
 }
 
 .brand-name {
   font-size: 24px;
   font-weight: 800;
-  margin: 0 0 8px 0;
+  margin-bottom: 12px;
+  color: #333;
 }
 
 .brand-description {
-  font-size: 14px;
-  margin: 0 0 16px 0;
-  opacity: 0.9;
-  line-height: 1.4;
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+  line-height: 1.5;
 }
 
 .brand-stats {
   display: flex;
-  gap: 16px;
-  margin-bottom: 20px;
-  font-size: 12px;
-  opacity: 0.8;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  font-size: 14px;
+  color: #666;
+  font-weight: 600;
 }
 
 .brand-cta {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 12px 24px;
-  background: white;
-  color: #667eea;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   border: none;
-  border-radius: 25px;
-  font-size: 14px;
-  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 20px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
-  align-self: flex-start;
+  transition: all 0.2s ease;
 }
 
 .brand-cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
 }
 
-/* Footer */
+/* Trust Elements */
+.trust-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 60px;
+  margin-top: 40px;
+}
+
+.trust-block h3 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  color: #333;
+}
+
+/* Customer Reviews */
+.reviews-header {
+  margin-bottom: 32px;
+}
+
+.overall-rating {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.rating-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.rating-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: #333;
+}
+
+.review-count {
+  font-size: 14px;
+  color: #666;
+}
+
+.review-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.review-card {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.reviewer-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.reviewer-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.review-rating {
+  display: flex;
+  gap: 2px;
+}
+
+.review-text {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.review-product {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.review-product-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.review-product-name {
+  font-size: 12px;
+  color: #666;
+  font-weight: 600;
+}
+
+/* Trust Badges */
+.trust-badges {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.trust-badge {
+  text-align: center;
+  padding: 24px 16px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.trust-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.trust-badge h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.trust-badge p {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Enhanced Footer */
 .main-footer {
   background: #1a1a1a;
   color: white;
-  padding: 60px 0 20px;
+  margin-top: 80px;
 }
 
 .footer-container {
@@ -2600,51 +3086,97 @@ export default {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 60px;
-  margin-bottom: 40px;
+  padding: 60px 0 40px;
+  border-bottom: 1px solid #333;
 }
 
 .footer-brand {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
 .footer-logo {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 800;
-  color: white;
 }
 
 .footer-tagline {
   font-size: 16px;
   color: #ccc;
-  margin: 0;
   line-height: 1.5;
 }
 
-.footer-social {
+/* Newsletter */
+.newsletter-signup h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.newsletter-form {
   display: flex;
   gap: 12px;
+  margin-bottom: 8px;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: #2a2a2a;
+  color: white;
+  font-size: 14px;
+}
+
+.newsletter-input::placeholder {
+  color: #999;
+}
+
+.newsletter-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.newsletter-btn:hover {
+  transform: translateY(-1px);
+}
+
+.newsletter-note {
+  font-size: 12px;
+  color: #999;
+}
+
+/* Social Media */
+.footer-social {
+  display: flex;
+  gap: 16px;
 }
 
 .social-link {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #333;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: #333;
-  border-radius: 50%;
-  color: #ccc;
-  transition: all 0.3s ease;
+  color: white;
+  transition: all 0.2s ease;
 }
 
 .social-link:hover {
   background: #667eea;
-  color: white;
   transform: translateY(-2px);
 }
 
@@ -2653,32 +3185,28 @@ export default {
   height: 18px;
 }
 
+/* Footer Links */
 .footer-links {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 40px;
 }
 
-.footer-column {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
 .footer-title {
   font-size: 16px;
   font-weight: 700;
+  margin-bottom: 16px;
   color: white;
-  margin: 0;
 }
 
 .footer-menu {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+}
+
+.footer-menu li {
+  margin-bottom: 8px;
 }
 
 .footer-link {
@@ -2689,30 +3217,30 @@ export default {
 }
 
 .footer-link:hover {
-  color: #667eea;
+  color: white;
 }
 
 .app-description {
   font-size: 14px;
   color: #ccc;
-  margin: 0 0 16px 0;
+  margin-bottom: 16px;
   line-height: 1.4;
 }
 
 .app-downloads {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 .app-download img {
   height: 40px;
-  width: auto;
+  object-fit: contain;
 }
 
+/* Footer Bottom */
 .footer-bottom {
-  border-top: 1px solid #333;
-  padding-top: 20px;
+  padding: 24px 0;
 }
 
 .footer-bottom-content {
@@ -2723,14 +3251,13 @@ export default {
 
 .copyright {
   font-size: 14px;
-  color: #ccc;
-  margin: 0;
+  color: #999;
 }
 
 .payment-methods {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
 .payment-label {
@@ -2745,30 +3272,70 @@ export default {
 
 .payment-icons img {
   height: 24px;
-  width: auto;
   border-radius: 4px;
+}
+
+/* Floating Support */
+.floating-support {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+}
+
+.support-chatbot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.support-chatbot:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(102, 126, 234, 0.4);
+}
+
+.chat-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.support-text {
+  font-size: 14px;
+}
+
+.support-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #28a745;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 8px;
+  animation: pulse 2s infinite;
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
   .header-container {
-    grid-template-columns: 1fr auto 1fr;
-    gap: 16px;
-  }
-  
-  .location-section,
-  .header-actions {
-    display: none;
-  }
-  
-  .banner-title {
-    font-size: 36px;
-  }
-  
-  .banner-content {
-    grid-template-columns: 1fr;
+    grid-template-columns: 240px 1fr 240px;
     gap: 20px;
-    text-align: center;
+  }
+  
+  .trust-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
   }
   
   .footer-top {
@@ -2778,67 +3345,65 @@ export default {
   
   .footer-links {
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 30px;
   }
 }
 
 @media (max-width: 768px) {
   .header-container {
     grid-template-columns: 1fr;
-    min-height: 60px;
-    padding: 0 16px;
+    gap: 16px;
+    min-height: auto;
+    padding: 16px 20px;
   }
   
   .search-section {
     order: 2;
-    margin-top: 12px;
   }
   
-  .hero-banners {
-    height: 400px;
-    margin-top: 120px;
+  .header-actions {
+    order: 1;
+    justify-content: space-between;
   }
   
   .banner-title {
-    font-size: 28px;
+    font-size: 32px;
   }
   
   .banner-subtitle {
     font-size: 16px;
   }
   
-  .category-navigation {
-    padding: 12px 0;
+  .banner-content {
+    flex-direction: column;
+    text-align: center;
   }
   
-  .category-arrows {
-    display: none;
-  }
-  
-  .shortcuts-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  
-  .section-title {
-    font-size: 24px;
-  }
-  
-  .products-scroll {
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
   
-  .product-card {
-    min-width: 240px;
+  .feature-promos {
+    grid-template-columns: 1fr;
   }
   
-  .trending-grid,
-  .brand-spotlight-grid {
+  .feature-promo {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .deals-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .trust-badges {
     grid-template-columns: 1fr;
   }
   
   .footer-links {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 24px;
   }
   
   .footer-bottom-content {
@@ -2849,28 +3414,33 @@ export default {
 }
 
 @media (max-width: 480px) {
-  .hero-banners {
-    height: 300px;
+  .products-grid,
+  .products-grid.enhanced {
+    grid-template-columns: 1fr;
   }
   
-  .banner-title {
-    font-size: 22px;
+  .product-card,
+  .product-card.enhanced {
+    min-width: 100%;
   }
   
-  .banner-content {
-    padding: 0 16px;
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
   }
   
-  .shortcuts-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .floating-support {
+    bottom: 20px;
+    right: 20px;
   }
   
-  .product-card {
-    min-width: 200px;
+  .support-chatbot {
+    padding: 12px 16px;
   }
   
-  .app-downloads {
-    align-items: center;
+  .support-text {
+    display: none;
   }
 }
 </style>
