@@ -920,8 +920,13 @@
 </template>
 
 <script>
+import PremiumAuthModal from './PremiumAuthModal.vue'
+
 export default {
   name: 'ComprehensiveHomepage',
+  components: {
+    PremiumAuthModal
+  },
   data() {
     return {
       // Header state
