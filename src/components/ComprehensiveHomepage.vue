@@ -476,19 +476,18 @@
               <p class="section-subtitle">Limited time offers - Don't miss out!</p>
             </div>
             <div class="deals-timer">
-              <span class="timer-label">Ends in:</span>
+              <span class="timer-label">Ends in</span>
               <div class="countdown-timer">
                 <div class="time-unit">
-                  <span class="time-value">{{ countdown.hours }}</span>
-                  <span class="time-label">Hours</span>
+                  <span class="time-value">{{ String(countdown.hours).padStart(2, '0') }}</span>
                 </div>
+                <span class="time-separator">:</span>
                 <div class="time-unit">
-                  <span class="time-value">{{ countdown.minutes }}</span>
-                  <span class="time-label">Min</span>
+                  <span class="time-value">{{ String(countdown.minutes).padStart(2, '0') }}</span>
                 </div>
+                <span class="time-separator">:</span>
                 <div class="time-unit">
-                  <span class="time-value">{{ countdown.seconds }}</span>
-                  <span class="time-label">Sec</span>
+                  <span class="time-value">{{ String(countdown.seconds).padStart(2, '0') }}</span>
                 </div>
               </div>
             </div>
