@@ -1607,12 +1607,18 @@ export default {
     },
 
     moveToCart(item) {
-      this.cartItems.push({
-        ...item,
-        quantity: 1
+      // Add item to cart using Vuex
+      this.$store.dispatch('addToCart', {
+        product: item,
+        color: item.colors ? item.colors[0] : null,
+        size: this.getDefaultSize(item)
       })
-      this.cartCount++
+
+      // Remove from wishlist
       this.removeFromWishlist(item.id)
+
+      // Show notification
+      this.showAddToCartNotification(item)
     },
 
     removeFromWishlist(itemId) {
